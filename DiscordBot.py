@@ -26,7 +26,7 @@ Ping = PingPong(URL, Authorization)
 @bot.event
 async def on_ready():
     print("준비 완료!")
-    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.12")
+    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.12.1")
     await bot.change_presence(status=discord.Status.online, activity=game)
 
 @bot.listen()
@@ -142,7 +142,7 @@ async def covid(ctx):
         embed.add_field(name="국내 확진자", value=f"{data['TotalCase']}(+{data['TotalCaseBefore']})", inline=False)
         embed.add_field(name="국내 완치자", value=f"{data['TotalRecovered']}(+{data['TodayRecovered']})", inline=False)
         embed.add_field(name="국내 사망자", value=f"{data['TotalDeath']}(+{data['TodayDeath']})", inline=False)
-        embed.add_field(name="국내 사망자", value=f"{data['NowCase']}", inline=False)
+        embed.add_field(name="국내 치료중", value=f"{data['NowCase']}", inline=False)
         await ctx.send(embed=embed)
 
 @bot.command(name="채널정보")
