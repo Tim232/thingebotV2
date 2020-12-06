@@ -26,7 +26,7 @@ Ping = PingPong(URL, Authorization)
 @bot.event
 async def on_ready():
     print("준비 완료!")
-    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.12.1")
+    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.13")
     await bot.change_presence(status=discord.Status.online, activity=game)
 
 @bot.listen()
@@ -158,6 +158,22 @@ async def channelinfo(message):
     embed.add_field(name="슬로우모드", value=f"{message.channel.slowmode_delay}초", inline=False)
     embed.add_field(name="NSFW 여부", value=f"{message.channel.is_nsfw()}", inline=False)
     embed.add_field(name="채널 id", value=f"{message.channel.id}", inline=False)
+    await message.channel.send(embed=embed)
+
+@bot.command(name="서버정보")
+async def svinfo(message):
+    embed = discord.Embed(
+            title=f"{message.guild.name}({message.guild.id})의 서버 정보",
+            description="이 서버의 정보에요!",
+            color=RandomColor()
+        )
+    embed.set_thumbnail(url=f"{message.guild.icon_url}")
+    embed.add_field(name="서버 주인 ID", value=f"{message.guild.owner_id}", inline=False)
+    embed.add_field(name="멤버수", value=f"{message.guild.member_count}", inline=False)
+    embed.add_field(name="생성일", value=f"{message.guild.created_at}", inline=False)
+    embed.add_field(name="AFK 채널, AFK 시간", value=f"{message.guild.afk_channel}, {message.guild.afk_timeout}분", inline=False)
+    embed.add_field(name="시스템 채널", value=f"{message.guild.system_channel}", inline=False)
+    embed.add_field(name="기본 역할", value=f"{message.guild.default_role}", inline=False)
     await message.channel.send(embed=embed)
 
 bot.remove_command("help")
