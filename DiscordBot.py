@@ -126,7 +126,7 @@ async def _unban(ctx, *, user_name):
 
 @commands.has_permissions(administrator=True)
 @bot.command(name="지워", pass_context=True)
-async def _clear(ctx, *, amount=6):
+async def _clear(ctx, *, amount=5):
     await ctx.channel.purge(limit=amount + 1)
 
 @bot.command(name="코로나현황")
