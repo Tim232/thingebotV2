@@ -136,7 +136,7 @@ async def covid(ctx):
         data = json.loads(text)
         embed = discord.Embed(
             title=f"{data['updateTime']}",
-            description="코로나가 완전히 사라지기를 기원합니다! :D",
+            description="코로나는 코리아를 이길 수 없습니다! :3",
             color=RandomColor()
         )
         embed.add_field(name="국내 확진자", value=f"{data['TotalCase']}(+{data['TotalCaseBefore']})", inline=False)
