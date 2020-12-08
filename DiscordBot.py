@@ -95,7 +95,7 @@ async def help(ctx):
     embed.set_footer(text="띵이봇의 도움말, 초대 등이 있어요!")
     await ctx.send(embed=embed)
 
-@bot.command()
+@bot.command(name="도움말")
 async def pingandpong(ctx):
     latancy = bot.latency
     await ctx.send("\U0001F4E2"f' Pong! {round(latancy * 1000)}ms')
