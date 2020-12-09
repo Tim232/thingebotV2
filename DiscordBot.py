@@ -131,6 +131,7 @@ async def _unban(ctx, *, user_name):
 @bot.command(name="지워", pass_context=True)
 async def _clear(ctx, *, amount=5):
     await ctx.channel.purge(limit=amount + 1)
+    await ctx.send(f"{ctx.author.name}에 의해 메시지 {amount}개가 지워졌어요!", delete_after=1)
 
 @bot.command(name="코로나현황")
 async def covid(ctx):
