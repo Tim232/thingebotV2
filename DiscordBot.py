@@ -224,7 +224,7 @@ async def urlshorten(ctx, url):
                         
 @bot.command(name="문의")
 async def contact(ctx, msg):
-    c = 786215895164911647
+    c = 786076322945564682
     user = ctx.author
     embed = discord.Embed(
             title=f"{user.name}님에게서 문의가 도착했어요! 띵~동~",
