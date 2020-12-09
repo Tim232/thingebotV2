@@ -223,7 +223,7 @@ async def urlshorten(ctx, url):
         await urlmsg.edit(embed=embed)
                         
 @bot.command(name="문의")
-async def contact(ctx, msg):
+async def contact(ctx, *, msg):
     try:
         c = 786076322945564682
         user = ctx.author
