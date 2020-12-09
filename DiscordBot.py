@@ -179,7 +179,7 @@ async def svinfo(message):
 @bot.event
 async def on_guild_join(guild):
     c = 786076322945564682
-    invite = guild.invites()
+    invite = await guild.invites()
     embed = discord.Embed(
             title="띵이봇이 새로운 서버에 초대되었어요!",
             description=f"띵이봇이 {guild.name}({guild.id})에 초대되었습니다!",
