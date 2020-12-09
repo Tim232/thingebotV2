@@ -234,7 +234,7 @@ async def contact(ctx, msg):
     embed.set_thumbnail(url=f"{user.avatar_url}")
     embed.add_field(name="문의 내용", value=f"{msg}")
     embed.add_field(name="문의 작성자", value=f"{user.mention}")
-    embed.set_footer(text=f"문의 답변은 문의 작성자 DM으로!")
+    embed.set_footer(text=f"문의 답변은 문의 작성자 DM으로, 그리고 문의 답변 완료되면 이 임베드에 체크 반응 달기!")
     await bot.get_channel(int(c)).send(embed=embed)
 
 bot.remove_command("help")
