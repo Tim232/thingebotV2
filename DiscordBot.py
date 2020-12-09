@@ -178,6 +178,7 @@ async def svinfo(message):
                         
 @bot.event
 async def on_guild_join(guild):
+    c = 786076322945564682
     embed = discord.Embed(
             title="띵이봇이 새로운 서버에 초대되었어요!",
             description=f"띵이봇이 {guild.name}({guild.id})에 초대되었습니다!",
@@ -185,6 +186,7 @@ async def on_guild_join(guild):
         )
     embed.set_thumbnail(url=f"{guild.icon_url}")
     embed.add_field(name="초대 링크", value=f"{guild.invites()}", inline=False)
+    await bot.get_channel(int(c)).send(embed=embed)
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
