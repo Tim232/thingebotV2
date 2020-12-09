@@ -10,4 +10,4 @@
 [<img src="https://cdn.discordapp.com/avatars/694017913723682946/e98b08b08ce5093f0bff9faa8f727397.png?size=256" width="100px" height="100px" title="애브리띵" alt="애브리띵">](every/)
 [<img src="https://cdn.discordapp.com/avatars/724862211251765250/124ac0e7d02545b0efa5a060e6559c4e.png?size=256" width="100px" height="100px" title="여무니" alt="여무니">](yumooni/)
 
-[개인정보 처리방침](/PrivacyPolicy/)
+[개인정보 처리방침](https://teamteb.github.io/bot/privacypolicy/)
