@@ -34,17 +34,17 @@ async def on_command_error(ctx, error):
     if type(error) is commands.errors.CommandNotFound:
         data = await Ping.Pong(ctx.author.id, ctx.message.content, NoTopic=False)
         embed = discord.Embed(
-            title="띵이봇 V.2",
+            title="띵이봇과 대화하기!",
             description=data['text'],
             color=RandomColor()
         )
-        embed.set_footer(text="띵이봇 V.2입니다!")
+        embed.set_footer(text="띵이봇 인공지능")
         if data['image'] is not None:
             embed.set_image(url=data['image'])
         await ctx.send(embed=embed)
     else:
-        embed = discord.Embed(title="오류!!", description="오류가 발생했습니다.", color=0xFF0000)
-        embed.add_field(name="상세", value=f"```{error}```")
+        embed = discord.Embed(title="오류!!!", description="오류가 발생했어요...\n[오류 해결하러 ㄱㄱ!](https://error.teb.kro.kr/)", color=0xFF0000)
+        embed.add_field(name="오류 내용", value=f"```{error}```")
         await ctx.send(embed=embed)
 
 
