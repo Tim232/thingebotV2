@@ -221,6 +221,21 @@ async def urlshorten(ctx, url):
             )
         embed.add_field(name="오류 내용", value=f"```{data['msg']}```")
         await urlmsg.edit(embed=embed)
+                        
+@bot.command(name="문의")
+async def contact(ctx, msg):
+    c = 786215895164911647
+    user = ctx.author
+    embed = discord.Embed(
+            title=f"{user.name}님에게서 문의가 도착했어요! 띵~동~",
+            description=f"{msg}",
+            color=RandomColor()
+        )
+    embed.set_thumbnail(url=f"{user.avatar_url}")
+    embed.add_field(name="문의 내용", value=f"{msg}")
+    embed.add_field(name="문의 작성자", value=f"{user.mention}")
+    embed.set_footer(text=f"문의 답변은 문의 작성자 DM으로!")
+    await bot.get_channel(int(c)).send(embed=embed)
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
