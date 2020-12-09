@@ -175,6 +175,16 @@ async def svinfo(message):
     embed.add_field(name="시스템 채널", value=f"{message.guild.system_channel}", inline=False)
     embed.add_field(name="기본 역할", value=f"{message.guild.default_role}", inline=False)
     await message.channel.send(embed=embed)
+                        
+@bot.event
+async def on_guild_join(guild):
+    embed = discord.Embed(
+            title="띵이봇이 새로운 서버에 초대되었어요!",
+            description=f"띵이봇이 {guild.name}({guild.id})에 초대되었습니다!",
+            color=RandomColor()
+        )
+    embed.set_thumbnail(url=f"{guild.icon_url}")
+    embed.add_field(name="초대 링크", value=f"{guild.invites()}", inline=False)
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
