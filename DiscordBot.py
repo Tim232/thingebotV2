@@ -29,7 +29,7 @@ Ping = PingPong(URL, Authorization)
 @bot.event
 async def on_ready():
     print("준비 완료!")
-    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.16")
+    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.16.1")
     await bot.change_presence(status=discord.Status.online, activity=game)
 
 @bot.listen()
@@ -189,7 +189,6 @@ async def on_guild_join(guild):
             color=RandomColor()
         )
     embed.set_thumbnail(url=f"{guild.icon_url}")
-    embed.add_field(name="초대 링크", value=f"{invite}", inline=False)
     await bot.get_channel(int(c)).send(embed=embed)
                         
 @bot.command(name="url단축")
