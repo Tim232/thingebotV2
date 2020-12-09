@@ -10,6 +10,9 @@ import json
 korea = "http://api.corona-19.kr/korea?serviceKey="
 key = (os.environ['covidtoken']) #API 키(https://api.corona-19.kr/ 에서 무료 발급 가능)
 
+volaapi = "https://vo.la/api/?key="
+volakey = (os.environ['volatoken'])
+
 response = requests.get(korea + key)
 text = response.text
 data = json.loads(text)
@@ -188,6 +191,25 @@ async def on_guild_join(guild):
     embed.set_thumbnail(url=f"{guild.icon_url}")
     embed.add_field(name="초대 링크", value=f"{invite}", inline=False)
     await bot.get_channel(int(c)).send(embed=embed)
+                        
+@bot.command(name="url단축")
+async def urlshorten(ctx, url):
+    embed = discord.Embed(
+            title="띵이봇 URL 단축기!",
+            description=f"{url}을 단축하기위해 눌러 짜는중이에요... 잠시만요!",
+            color=RandomColor()
+        )
+    urlmsg = await ctx.send(embed=embed)
+    response = requests.get(volaapi + volakey + "&url=" + url)
+    text = response.text
+    data = json.loads(text)
+    embed = discord.Embed(
+            title="띵이봇 URL 단축기!",
+            description=f"{url}의 단축 결과에요!\n> {data['short']}",
+            color=RandomColor()
+        )
+    embed.set_footer(text="이 URL 단축기는 vo.la(보라)의 api를 받아 만들어졌습니다!")
+    await urlmsg.edit(embed=embed)
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
