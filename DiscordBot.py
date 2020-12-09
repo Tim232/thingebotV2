@@ -195,21 +195,33 @@ async def on_guild_join(guild):
 @bot.command(name="url단축")
 async def urlshorten(ctx, url):
     embed = discord.Embed(
-            title="띵이봇 URL 단축기!",
-            description=f"{url}을 단축하기위해 눌러 짜는중이에요... 잠시만요!",
-            color=RandomColor()
-        )
+                title="띵이봇 URL 단축기!",
+                description=f"{url}을 단축하기위해 눌러 짜는중이에요... 잠시만요!",
+               color=RandomColor()
+            )
     urlmsg = await ctx.send(embed=embed)
     response = requests.get(volaapi + volakey + "&url=" + url)
     text = response.text
     data = json.loads(text)
-    embed = discord.Embed(
-            title="띵이봇 URL 단축기!",
-            description=f"{url}의 단축 결과에요!\n> {data['short']}",
-            color=RandomColor()
-        )
-    embed.set_footer(text="이 URL 단축기는 vo.la(보라)의 api를 받아 만들어졌습니다!")
-    await urlmsg.edit(embed=embed)
+    if data['error'] == 0:
+        response = requests.get(volaapi + volakey + "&url=" + url)
+        text = response.text
+        data = json.loads(text)
+        embed = discord.Embed(
+                title="띵이봇 URL 단축기!",
+                description=f"{url}의 단축 결과에요!\n> {data['short']}",
+                color=RandomColor()
+            )
+        embed.set_footer(text="이 URL 단축기는 vo.la(보라)의 api를 받아 만들어졌습니다!")
+        await urlmsg.edit(embed=embed)
+    else:
+        embed = discord.Embed(
+                title="URL 단축기가 망가졌어요 ㅜㅜ",
+                description=f"{url}을 단축하기위해 눌러 짜는중에 TNT가 떨어져 오류가 발생했어요 ㅜㅜ",
+               color=RandomColor()
+            )
+        embed.add_field(name="오류 내용", value=f"```{data['msg']}```")
+        await urlmsg.edit(embed=embed)
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
