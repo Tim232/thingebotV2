@@ -147,6 +147,7 @@ async def covid(ctx):
         embed.add_field(name="국내 완치자", value=f"{data['TotalRecovered']}(+{data['TodayRecovered']})", inline=False)
         embed.add_field(name="국내 사망자", value=f"{data['TotalDeath']}(+{data['TodayDeath']})", inline=False)
         embed.add_field(name="국내 치료중", value=f"{data['NowCase']}", inline=False)
+        embed.add_field(name="해외 코로나 현황", value="https://www.worldometers.info/coronavirus/index.php", inline=False)
         await ctx.send(embed=embed)
 
 @bot.command(name="채널정보")
