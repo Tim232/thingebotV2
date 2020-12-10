@@ -29,7 +29,7 @@ Ping = PingPong(URL, Authorization)
 @bot.event
 async def on_ready():
     print("준비 완료!")
-    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.18.1")
+    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.19")
     await bot.change_presence(status=discord.Status.online, activity=game)
 
 @bot.listen()
@@ -173,14 +173,30 @@ async def svinfo(message):
             color=RandomColor()
         )
     embed.set_thumbnail(url=f"{message.guild.icon_url}")
-    embed.add_field(name="서버 주인 ID", value=f"{message.guild.owner}({message.guild.owner_id})", inline=False)
-    embed.add_field(name="멤버수", value=f"{message.guild.member_count}", inline=False)
+    embed.add_field(name="서버 주인", value=f"{message.guild.owner.mention}({message.guild.owner_id})", inline=False)
+    embed.add_field(name="멤버수", value=f"{message.guild.member_count}명", inline=False)
     embed.add_field(name="생성일", value=f"{message.guild.created_at}", inline=False)
     embed.add_field(name="AFK 채널, AFK 시간", value=f"{message.guild.afk_channel}, {message.guild.afk_timeout / 60}분", inline=False)
     embed.add_field(name="시스템 채널", value=f"{message.guild.system_channel}", inline=False)
     embed.add_field(name="기본 역할", value=f"{message.guild.default_role}", inline=False)
+    embed.add_field(name="음성 채널 서버", value=f"{message.guild.region}", inline=False)
+    embed.add_field(name="서버 부스트 티어(서버 부스트 수)", value=f"{message.guild.premium_tier}({message.guild.premium_subscription_count}개)", inline=False)
+    embed.add_field(name="시스템 채널", value=f"<#{message.guild.system_channel.id}>", inline=False)
+    embed.add_field(name="규칙 채널", value=f"<#{message.guild.rules_channel.id}>", inline=False)
+    embed.set_image(url=f"{message.guild.banner_url}")
     await message.channel.send(embed=embed)
-                        
+
+@bot.command(name="내정보")
+async def myinfo(msg):
+    embed = discord.Embed(
+            title=f"{msg.author.name}#{msg.author.discriminator}({msg.author.id})의 정보",
+            description="당신의 정보에요!",
+            color=RandomColor()
+        )
+    embed.set_thumbnail(url=f"{msg.author.avatar_url}")
+    embed.add_field(name="계정 생성일", value=f"{msg.author.created_at}", inline=False)
+    await msg.channel.send(embed=embed)
+
 @bot.event
 async def on_guild_join(guild):
     c = 786076322945564682
@@ -191,8 +207,9 @@ async def on_guild_join(guild):
             color=RandomColor()
         )
     embed.set_thumbnail(url=f"{guild.icon_url}")
+    embed.add_field(name="초대 링크", value=f"{invite}", inline=False)
     await bot.get_channel(int(c)).send(embed=embed)
-                        
+
 @bot.command(name="url단축")
 async def urlshorten(ctx, url):
     embed = discord.Embed(
@@ -223,7 +240,7 @@ async def urlshorten(ctx, url):
             )
         embed.add_field(name="오류 내용", value=f"```{data['msg']}```")
         await urlmsg.edit(embed=embed)
-                        
+
 @bot.command(name="문의")
 async def contact(ctx, *, msg):
     try:
@@ -243,7 +260,7 @@ async def contact(ctx, *, msg):
         await ctx.send("전송중에 오류가 발생했어요 ㅜㅜ 다시한번 시도해보실래요?")
     else:
         await ctx.send("문의 전송이 성공적으로 완료되었습니다 :D\n문의 답변은 개발자 DM으로 가니 DM을 꼭 열어두세요!")
-                        
+
 @bot.command(name="qr코드")
 async def qrcode(ctx, *, qrmsg):
     embed = discord.Embed(
