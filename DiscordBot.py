@@ -23,7 +23,8 @@ def RandomColor():
 Authorization = (os.environ['pingpongtoken'])
 URL = "https://builder.pingpong.us/api/builder/5f8bdb67e4b07b8420a30e71/integration/v0.2/custom/{sessionId}"
 
-bot = commands.Bot(command_prefix=['?', '띵아 '])
+INTENTS = discord.Intents.all()
+bot = commands.Bot(command_prefix=['?', '띵아 '], intents=INTENTS)
 Ping = PingPong(URL, Authorization)
 
 @bot.event
