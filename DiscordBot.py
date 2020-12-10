@@ -178,7 +178,6 @@ async def svinfo(message):
     embed.add_field(name="멤버수", value=f"{message.guild.member_count}명", inline=False)
     embed.add_field(name="생성일", value=f"{message.guild.created_at}", inline=False)
     embed.add_field(name="AFK 채널, AFK 시간", value=f"{message.guild.afk_channel}, {message.guild.afk_timeout / 60}분", inline=False)
-    embed.add_field(name="시스템 채널", value=f"{message.guild.system_channel}", inline=False)
     embed.add_field(name="기본 역할", value=f"{message.guild.default_role}", inline=False)
     embed.add_field(name="음성 채널 서버", value=f"{message.guild.region}", inline=False)
     embed.add_field(name="서버 부스트 티어(서버 부스트 수)", value=f"{message.guild.premium_tier}({message.guild.premium_subscription_count}개)", inline=False)
