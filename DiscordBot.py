@@ -30,7 +30,7 @@ Ping = PingPong(URL, Authorization)
 @bot.event
 async def on_ready():
     print("준비 완료!")
-    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.19.3")
+    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.20")
     await bot.change_presence(status=discord.Status.online, activity=game)
 
 @bot.listen()
@@ -136,20 +136,20 @@ async def _clear(ctx, *, amount=5):
 
 @bot.command(name="코로나현황")
 async def covid(ctx):
-        response = requests.get(korea + key)
-        text = response.text
-        data = json.loads(text)
-        embed = discord.Embed(
-            title=f"{data['updateTime']}",
-            description="코로나는 코리아를 이길 수 없습니다! :3",
-            color=RandomColor()
-        )
-        embed.add_field(name="국내 확진자", value=f"{data['TotalCase']}(+{data['TotalCaseBefore']})", inline=False)
-        embed.add_field(name="국내 완치자", value=f"{data['TotalRecovered']}(+{data['TodayRecovered']})", inline=False)
-        embed.add_field(name="국내 사망자", value=f"{data['TotalDeath']}(+{data['TodayDeath']})", inline=False)
-        embed.add_field(name="국내 치료중", value=f"{data['NowCase']}", inline=False)
-        embed.add_field(name="해외 코로나 현황", value="https://www.worldometers.info/coronavirus/index.php", inline=False)
-        await ctx.send(embed=embed)
+    response = requests.get(korea + key)
+    text = response.text
+    data = json.loads(text)
+    embed = discord.Embed(
+        title=f"{data['updateTime']}",
+        description="코로나는 코리아를 이길 수 없습니다! :3",
+        color=RandomColor()
+    )
+    embed.add_field(name="국내 확진자", value=f"{data['TotalCase']}(+{data['TotalCaseBefore']})", inline=False)
+    embed.add_field(name="국내 완치자", value=f"{data['TotalRecovered']}(+{data['TodayRecovered']})", inline=False)
+    embed.add_field(name="국내 사망자", value=f"{data['TotalDeath']}(+{data['TodayDeath']})", inline=False)
+    embed.add_field(name="국내 치료중", value=f"{data['NowCase']}", inline=False)
+    embed.add_field(name="해외 코로나 현황", value="https://www.worldometers.info/coronavirus/index.php", inline=False)
+    await ctx.send(embed=embed)
 
 @bot.command(name="채널정보")
 async def channelinfo(message):
@@ -277,7 +277,19 @@ async def qrcode(ctx, *, qrmsg):
         )
     embed.set_image(url=f"{qrserver + qrmsg}")
     await loadingmsg.edit(embed=embed)
-                
+
+@bot.command(name="찬반투표")
+async def chanbanpoll(ctx, *, msg):
+    embed = discord.Embed(
+            title="<a:poll:786499385248579615>찬반투표<a:poll:786499385248579615>",
+            description=f"찬성 반대를 투표해주세요! :)\n\n{msg}",
+            color=RandomColor()
+        )
+    embed.set_footer(text=f"개표는 '메시지 더보기 클릭 > 반응 선택'의 단계로 간단히 진행하실 수 있습니다!")
+    poll = await ctx.send(embed=embed)
+    await poll.add_reaction("👍")
+    await poll.add_reaction("👎")
+
 @bot.event
 async def on_guild_remove(guild):
     c = 786076322945564682
