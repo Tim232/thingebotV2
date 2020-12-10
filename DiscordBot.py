@@ -235,14 +235,14 @@ async def contact(ctx, *, msg):
                 color=RandomColor()
             )
         embed.set_thumbnail(url=f"{user.avatar_url}")
-        embed.add_field(name="문의 내용", value=f"```{msg}```")
+        embed.add_field(name="문의 내용", value=f"{msg}")
         embed.add_field(name="문의 작성자", value=f"{user.mention}")
         embed.set_footer(text=f"문의 답변은 문의 작성자 DM으로, 그리고 문의 답변 완료되면 이 임베드에 체크 반응 달기!")
         await bot.get_channel(int(c)).send(embed=embed)
     except:
         await ctx.send("전송중에 오류가 발생했어요 ㅜㅜ 다시한번 시도해보실래요?")
     else:
-        await ctx.send("문의 전송이 성공적으로 완료되었습니다 :D")
+        await ctx.send("문의 전송이 성공적으로 완료되었습니다 :D\n문의 답변은 개발자 DM으로 가니 DM을 꼭 열어두세요!")
                         
 @bot.command(name="qr코드")
 async def qrcode(ctx, *, qrmsg):
