@@ -242,6 +242,23 @@ async def contact(ctx, *, msg):
         await ctx.send("전송중에 오류가 발생했어요 ㅜㅜ 다시한번 시도해보실래요?")
     else:
         await ctx.send("문의 전송이 성공적으로 완료되었습니다 :D")
+                        
+@bot.command(name="qr코드")
+async def qrcode(ctx, *, qrmsg):
+    embed = discord.Embed(
+            title="QR코드",
+            description="QR코드가 포장중이에요! 곧 도착한답니다 :)",
+            color=RandomColor()
+        )
+    loadingmsg = await ctx.send(embed=embed)
+    qrserver = "https://api.qrserver.com/v1/create-qr-code/?data="
+    embed = discord.Embed(
+            title="QR코드",
+            description="요청하신 QR코드가 도착했답니다! 후훗...",
+            color=RandomColor()
+        )
+    embed.set_image(url=f"{qrserver + qrmsg}")
+    await loadingmsg.edit(embed=embed)
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
