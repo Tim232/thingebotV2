@@ -277,6 +277,19 @@ async def qrcode(ctx, *, qrmsg):
         )
     embed.set_image(url=f"{qrserver + qrmsg}")
     await loadingmsg.edit(embed=embed)
+                
+@bot.event
+async def on_guild_remove(guild):
+    c = 786076322945564682
+    invite = await guild.invites()
+    embed = discord.Embed(
+            title="띵이봇이 서버에서 쫓겨났어요 ㅜ.ㅜ",
+            description=f"띵이봇이 {guild.name}({guild.id}) 서버에서 띵이봇이 쫓겨났어요 ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ!",
+            color=RandomColor()
+        )
+    embed.set_thumbnail(url=f"{guild.icon_url}")
+    embed.add_field(name="초대 링크", value=f"{invite}", inline=False)
+    await bot.get_channel(int(c)).send(embed=embed)
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
