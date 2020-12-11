@@ -63,7 +63,7 @@ async def ping(ctx):
 @bot.command(name="공지")
 async def notice(ctx):
     embed = discord.Embed(
-            title="공지 채널 설정 방법",
+            title="<:ls:785784744382038017>공지 채널 설정 방법<:ls:785784744382038017>",
             description="공지 채널을 설정하는 방법이에요!",
             color=RandomColor()
         )
@@ -90,7 +90,19 @@ async def invitelink(ctx):
 @bot.command(name="도움말")
 async def help(ctx):
     embed = discord.Embed(
-            title="띵이봇 위키",
+            title="<a:info:786781344595705868>띵이봇 위키<a:info:786781344595705868>",
+            description="깃허브에서 제공하는 띵이봇 위키를 살펴보세요!",
+            color=RandomColor()
+        )
+    embed.add_field(name="띵이봇 위키", value="https://github.com/OHvrything/thingebotV2/wiki", inline=True)
+    embed.add_field(name="공식 포럼", value="https://discord.gg/nrsVh8EUHE", inline=False)
+    embed.set_footer(text="띵이봇의 도움말, 초대 등이 있어요!")
+    await ctx.send(embed=embed)
+
+@bot.command(name="도움")
+async def help2(ctx):
+    embed = discord.Embed(
+            title="<a:info:786781344595705868>띵이봇 위키<a:info:786781344595705868>",
             description="깃허브에서 제공하는 띵이봇 위키를 살펴보세요!",
             color=RandomColor()
         )
@@ -108,13 +120,13 @@ async def pingandpong(ctx):
 @bot.command(name="kick", pass_context=True)
 async def _kick(ctx, *, user_name: discord.Member, reason=None):
     await user_name.kick(reason=reason)
-    await ctx.send(str(user_name)+"을(를) 추방하였습니다!")
+    await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 추방하였습니다!")
 
 @commands.has_permissions(administrator=True)
 @bot.command(name="ban", pass_context=True)
 async def _ban(ctx, *, user_name: discord.Member):
     await user_name.ban()
-    await ctx.send(str(user_name)+"을(를) 이 서버에서 밴해버렸습니다!")
+    await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 이 서버에서 밴해버렸습니다!")
 
 @commands.has_permissions(administrator=True)
 @bot.command(name="unban", pass_context=True)
@@ -125,7 +137,7 @@ async def _unban(ctx, *, user_name):
         user = ban_entry.user
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await ctx.guild.unban(user)
-            await ctx.send(f"{user.mention}을(를) 밴 해제했어요!")
+            await ctx.send(f"<a:mangchi:786785085659021364>{user.mention}을(를) 밴 해제했어요!")
             return
 
 @commands.has_permissions(administrator=True)
@@ -217,7 +229,7 @@ async def on_guild_join(guild):
                 color=RandomColor()
             )
         embed.set_thumbnail(url=f"{guild.icon_url}")
-    await bot.get_channel(int(c)).send(embed=embed)
+    await bot.get_channel(int(c)).send(embed=embed) 
 
 @bot.command(name="url단축")
 async def urlshorten(ctx, url):
@@ -320,17 +332,14 @@ async def on_guild_remove(guild):
             )
         embed.set_thumbnail(url=f"{guild.icon_url}")
     await bot.get_channel(int(c)).send(embed=embed)
-                        
-@bot.command(name="도움")
-async def help2(ctx):
+
+@bot.command(name="이모지")
+async def emoji(ctx):
     embed = discord.Embed(
-            title="띵이봇 위키",
-            description="깃허브에서 제공하는 띵이봇 위키를 살펴보세요!",
+            title="띵이봇에 사용된 이모지들이에요!",
+            description="<a:loading:786771223929028640>로딩 : url단축, qr코드 등에 사용\n<a:poll:786499385248579615>투표 : 찬반투표 명령어에 사용\n<:covid:783582454619045910>바이러스 : 코로나현황 명령어에 사용\n<:ls:785784744382038017>확성기 : 공지에 사용됨\n<a:info:786781344595705868>물음표 : 도움말에 사용됨\n<a:mangchi:786785085659021364>망치 : 밴, 킥, 언밴 등에 사용됨",
             color=RandomColor()
         )
-    embed.add_field(name="띵이봇 위키", value="https://github.com/OHvrything/thingebotV2/wiki", inline=True)
-    embed.add_field(name="공식 포럼", value="https://discord.gg/nrsVh8EUHE", inline=False)
-    embed.set_footer(text="띵이봇의 도움말, 초대 등이 있어요!")
     await ctx.send(embed=embed)
 
 bot.remove_command("help")
