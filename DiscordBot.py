@@ -29,20 +29,14 @@ Ping = PingPong(URL, Authorization)
 
 @bot.event
 async def on_ready():
+    print(bot.user.name)
+    print(bot.user.id)
     print("준비 완료!")
+    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.23"]
     while True:
-        game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요!")
-        await bot.change_presence(status=discord.Status.online, activity=game)
-        time.sleep(5)
-        game = discord.Game("이 메시지는 5초마다 변경됩니다!")
-        await bot.change_presence(status=discord.Status.online, activity=game)
-        time.sleep(5)
-        game = discord.Game("https://thinge.teb.kro.kr")
-        await bot.change_presence(status=discord.Status.online, activity=game)
-        time.sleep(5)
-        game = discord.Game("버전 TEB 2.22")
-        await bot.change_presence(status=discord.Status.online, activity=game)
-        time.sleep(5)
+        await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
+        messages.append(messages.pop(0))
+        await asyncio.sleep(5)
 
 @bot.listen()
 async def on_command_error(ctx, error):
