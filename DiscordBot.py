@@ -320,6 +320,18 @@ async def on_guild_remove(guild):
             )
         embed.set_thumbnail(url=f"{guild.icon_url}")
     await bot.get_channel(int(c)).send(embed=embed)
+                        
+@bot.command(name="도움")
+async def help2(ctx):
+    embed = discord.Embed(
+            title="띵이봇 위키",
+            description="깃허브에서 제공하는 띵이봇 위키를 살펴보세요!",
+            color=RandomColor()
+        )
+    embed.add_field(name="띵이봇 위키", value="https://github.com/OHvrything/thingebotV2/wiki", inline=True)
+    embed.add_field(name="공식 포럼", value="https://discord.gg/nrsVh8EUHE", inline=False)
+    embed.set_footer(text="띵이봇의 도움말, 초대 등이 있어요!")
+    await ctx.send(embed=embed)
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
