@@ -152,7 +152,7 @@ async def covid(ctx):
     text = response.text
     data = json.loads(text)
     embed = discord.Embed(
-        title=f"{data['updateTime']}",
+        title=f"<:covid:783582454619045910>{data['updateTime']}<:covid:783582454619045910>",
         description="코로나는 코리아를 이길 수 없습니다! :3",
         color=RandomColor()
     )
