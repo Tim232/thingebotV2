@@ -30,7 +30,7 @@ Ping = PingPong(URL, Authorization)
 @bot.event
 async def on_ready():
     print("준비 완료!")
-    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.21")
+    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.21.1")
     await bot.change_presence(status=discord.Status.online, activity=game)
 
 @bot.listen()
@@ -223,7 +223,7 @@ async def on_guild_join(guild):
 async def urlshorten(ctx, url):
     embed = discord.Embed(
                 title="띵이봇 URL 단축기!",
-                description=f"{url} 을(를) 단축하기위해 눌러 짜는중이에요... 잠시만요!",
+                description=f"<a:loading:786771223929028640>{url} 을(를) 단축하기위해 눌러 짜는중이에요... 잠시만요!<a:loading:786771223929028640>",
                color=RandomColor()
             )
     urlmsg = await ctx.send(embed=embed)
@@ -274,7 +274,7 @@ async def contact(ctx, *, msg):
 async def qrcode(ctx, *, qrmsg):
     embed = discord.Embed(
             title="QR코드",
-            description="QR코드가 포장중이에요! 곧 도착한답니다 :)",
+            description="<a:loading:786771223929028640>QR코드가 포장중이에요! 곧 도착한답니다 :)<a:loading:786771223929028640>",
             color=RandomColor()
         )
     loadingmsg = await ctx.send(embed=embed)
