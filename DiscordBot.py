@@ -30,8 +30,19 @@ Ping = PingPong(URL, Authorization)
 @bot.event
 async def on_ready():
     print("준비 완료!")
-    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.22.2")
-    await bot.change_presence(status=discord.Status.online, activity=game)
+    while True:
+        game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요!")
+        await bot.change_presence(status=discord.Status.online, activity=game)
+        time.sleep(5)
+        game = discord.Game("이 메시지는 5초마다 변경됩니다!")
+        await bot.change_presence(status=discord.Status.online, activity=game)
+        time.sleep(5)
+        game = discord.Game("https://thinge.teb.kro.kr")
+        await bot.change_presence(status=discord.Status.online, activity=game)
+        time.sleep(5)
+        game = discord.Game("버전 TEB 2.22")
+        await bot.change_presence(status=discord.Status.online, activity=game)
+        time.sleep(5)
 
 @bot.listen()
 async def on_command_error(ctx, error):
@@ -200,13 +211,24 @@ async def svinfo(message):
 
 @bot.command(name="내정보")
 async def myinfo(msg):
-    embed = discord.Embed(
-            title=f"{msg.author.name}#{msg.author.discriminator}({msg.author.id})의 정보",
-            description="당신의 정보에요!",
-            color=RandomColor()
-        )
-    embed.set_thumbnail(url=f"{msg.author.avatar_url}")
-    embed.add_field(name="계정 생성일", value=f"{msg.author.created_at}", inline=False)
+    try:    
+        embed = discord.Embed(
+                title=f"{msg.author.name}#{msg.author.discriminator}({msg.author.mention})의 정보",
+                description="당신의 정보에요!",
+                color=RandomColor()
+            )
+        embed.set_thumbnail(url=f"{msg.author.avatar_url}")
+        embed.add_field(name="ID", value=f"{msg.author.id}", inline=False)
+        embed.add_field(name="계정 생성일", value=msg.author.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+        embed.add_field(name="서버에 들어온 날!", value=f"{msg.author.joined_at.year}년 {msg.author.joined_at.month}월 {msg.author.joined_at.day}일", inline=False)
+        embed.add_field(name="서버 닉네임", value=f"{msg.author.display_name}", inline=False)
+        if msg.author.premium_since is not None:
+            embed.add_field(name="서버 부스트 시작일", value=msg.author.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+        embed.add_field(name="현제 상태", value=f"{msg.author.status}", inline=False)
+        embed.add_field(name="봇 여부", value=f"{msg.author.bot}", inline=False)
+        embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{msg.author.system}", inline=False)
+    except:
+        pass
     await msg.channel.send(embed=embed)
 
 @bot.event
