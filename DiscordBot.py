@@ -30,7 +30,7 @@ Ping = PingPong(URL, Authorization)
 @bot.event
 async def on_ready():
     print("준비 완료!")
-    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.22")
+    game = discord.Game("'띵아 도움말' 명령어로 띵이봇과 노는법을 알아보세요! | TEB 2.22.2")
     await bot.change_presence(status=discord.Status.online, activity=game)
 
 @bot.listen()
@@ -340,6 +340,7 @@ async def emoji(ctx):
             description="<a:loading:786771223929028640>로딩 : url단축, qr코드 등에 사용\n<a:poll:786499385248579615>투표 : 찬반투표 명령어에 사용\n<:covid:783582454619045910>바이러스 : 코로나현황 명령어에 사용\n<:ls:785784744382038017>확성기 : 공지에 사용됨\n<a:info:786781344595705868>물음표 : 도움말에 사용됨\n<a:mangchi:786785085659021364>망치 : 밴, 킥, 언밴 등에 사용됨",
             color=RandomColor()
         )
+    embed.set_footer(text="너무 찬란해서 눈뜨고 못. 볼. 껄. 요!\n아니라고요? 죄송해요 ㅜ.ㅜ")
     await ctx.send(embed=embed)
 
 bot.remove_command("help")
