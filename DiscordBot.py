@@ -416,7 +416,7 @@ async def myinfo(msg, *, user: discord.Member=None):
             embed.add_field(name="서버 닉네임", value=f"{user.display_name}", inline=False)
             if msg.author.premium_since is not None:
                 embed.add_field(name="서버 부스트 시작일", value=user.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-            embed.add_field(name="현제 상태", value=f"{user.status}", inline=False)
+            embed.add_field(name="현제 상태", value=f"{user.status}\nonline=온라인, online=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
             embed.add_field(name="봇 여부", value=f"{user.bot}", inline=False)
             embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{user.system}", inline=False)
         except:
@@ -436,7 +436,7 @@ async def myinfo(msg, *, user: discord.Member=None):
             embed.add_field(name="서버 닉네임", value=f"{msg.author.display_name}", inline=False)
             if msg.author.premium_since is not None:
                 embed.add_field(name="서버 부스트 시작일", value=msg.author.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-            embed.add_field(name="현제 상태", value=f"{msg.author.status}(online=온라인, online=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
+            embed.add_field(name="현제 상태", value=f"{msg.author.status}\nonline=온라인, online=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
             embed.add_field(name="봇 여부", value=f"{msg.author.bot}", inline=False)
             embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{msg.author.system}", inline=False)
         except:
