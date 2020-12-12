@@ -33,7 +33,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print("준비 완료!")
-    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.26.2"]
+    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.26.3"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
@@ -123,19 +123,19 @@ async def pingandpong(ctx):
     await ctx.send("\U0001F4E2"f' Pong! {round(latancy * 1000)}ms')
 
 @commands.has_permissions(administrator=True)
-@bot.command(name="kick", pass_context=True)
+@bot.command(name="kick")
 async def _kick(ctx, *, user_name: discord.Member, reason=None):
     await user_name.kick(reason=reason)
     await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 추방하였습니다!")
 
 @commands.has_permissions(administrator=True)
-@bot.command(name="ban", pass_context=True)
+@bot.command(name="ban")
 async def _ban(ctx, *, user_name: discord.Member):
     await user_name.ban()
     await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 이 서버에서 밴해버렸습니다!")
 
 @commands.has_permissions(administrator=True)
-@bot.command(name="unban", pass_context=True)
+@bot.command(name="unban")
 async def _unban(ctx, *, user_name):
     banned_users = await ctx.guild.bans()
     member_name, member_discriminator = user_name.split('#')
@@ -147,7 +147,7 @@ async def _unban(ctx, *, user_name):
             return
 
 @commands.has_permissions(administrator=True)
-@bot.command(name="지워", pass_context=True)
+@bot.command(name="지워")
 async def _clear(ctx, *, amount=5):
     await ctx.channel.purge(limit=amount + 1)
     await ctx.send(f"{ctx.author.name}에 의해 메시지 {amount}개가 지워졌어요!", delete_after=3)
@@ -422,7 +422,7 @@ async def myinfo(msg, *, user: discord.Member=None):
             embed.add_field(name="서버 닉네임", value=f"{user.display_name}", inline=False)
             if msg.author.premium_since is not None:
                 embed.add_field(name="서버 부스트 시작일", value=user.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-            embed.add_field(name="현제 상태", value=f"{user.status}\nonline=온라인, online=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
+            embed.add_field(name="현제 상태", value=f"{user.status}\n(online=온라인, online=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
             embed.add_field(name="봇 여부", value=f"{user.bot}", inline=False)
             embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{user.system}", inline=False)
         except:
@@ -442,7 +442,7 @@ async def myinfo(msg, *, user: discord.Member=None):
             embed.add_field(name="서버 닉네임", value=f"{msg.author.display_name}", inline=False)
             if msg.author.premium_since is not None:
                 embed.add_field(name="서버 부스트 시작일", value=msg.author.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-            embed.add_field(name="현제 상태", value=f"{msg.author.status}\nonline=온라인, online=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
+            embed.add_field(name="현제 상태", value=f"{msg.author.status}\n(online=온라인, online=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
             embed.add_field(name="봇 여부", value=f"{msg.author.bot}", inline=False)
             embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{msg.author.system}", inline=False)
         except:
