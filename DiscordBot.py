@@ -33,7 +33,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print("준비 완료!")
-    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.24"]
+    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.25"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
@@ -203,28 +203,6 @@ async def svinfo(message):
     embed.add_field(name="규칙 채널", value=f"<#{message.guild.rules_channel.id}>", inline=False)
     embed.set_image(url=f"{message.guild.banner_url}")
     await message.channel.send(embed=embed)
-
-@bot.command(name="내정보")
-async def myinfo(msg):
-    try:    
-        embed = discord.Embed(
-                title=f"{msg.author.name}#{msg.author.discriminator}({msg.author.mention})의 정보",
-                description="당신의 정보에요!",
-                color=RandomColor()
-            )
-        embed.set_thumbnail(url=f"{msg.author.avatar_url}")
-        embed.add_field(name="ID", value=f"{msg.author.id}", inline=False)
-        embed.add_field(name="계정 생성일", value=msg.author.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-        embed.add_field(name="서버에 들어온 날!", value=f"{msg.author.joined_at.year}년 {msg.author.joined_at.month}월 {msg.author.joined_at.day}일", inline=False)
-        embed.add_field(name="서버 닉네임", value=f"{msg.author.display_name}", inline=False)
-        if msg.author.premium_since is not None:
-            embed.add_field(name="서버 부스트 시작일", value=msg.author.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-        embed.add_field(name="현제 상태", value=f"{msg.author.status}", inline=False)
-        embed.add_field(name="봇 여부", value=f"{msg.author.bot}", inline=False)
-        embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{msg.author.system}", inline=False)
-    except:
-        pass
-    await msg.channel.send(embed=embed)
 
 @bot.event
 async def on_guild_join(guild):
@@ -411,7 +389,7 @@ async def createchannel(ctx, ctype, *, name):
             color=RandomColor()
             )
         await loadingmsg2.edit(embed=embed)
-                        
+
 @commands.has_permissions(administrator=True)
 @bot.command(name="닉네임변경")
 async def id_(ctx, user: discord.Member, *, newname=None):
@@ -421,6 +399,49 @@ async def id_(ctx, user: discord.Member, *, newname=None):
     else:
         await user.edit(nick=user.name)
         await ctx.send(f"{user.mention}님의 닉네임을 초기화했어요!")
+
+@bot.command(name="프로필")
+async def myinfo(msg, *, user: discord.Member=None):
+    if user is not None:
+        try:    
+            embed = discord.Embed(
+                    title=f"{user.name}#{user.discriminator}({user.mention})의 정보",
+                    description="다른 분의 정보를 보여드립니다...",
+                    color=RandomColor()
+                )
+            embed.set_thumbnail(url=f"{user.avatar_url}")
+            embed.add_field(name="ID", value=f"{user.id}", inline=False)
+            embed.add_field(name="계정 생성일", value=user.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            embed.add_field(name="서버에 들어온 날!", value=f"{user.joined_at.year}년 {user.joined_at.month}월 {user.joined_at.day}일", inline=False)
+            embed.add_field(name="서버 닉네임", value=f"{user.display_name}", inline=False)
+            if msg.author.premium_since is not None:
+                embed.add_field(name="서버 부스트 시작일", value=user.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            embed.add_field(name="현제 상태", value=f"{user.status}", inline=False)
+            embed.add_field(name="봇 여부", value=f"{user.bot}", inline=False)
+            embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{user.system}", inline=False)
+        except:
+            pass
+        await msg.channel.send(embed=embed)
+    else:
+        try:    
+            embed = discord.Embed(
+                    title=f"{msg.author.name}#{msg.author.discriminator}({msg.author.mention})의 정보",
+                    description="당신의 정보에요!",
+                    color=RandomColor()
+                )
+            embed.set_thumbnail(url=f"{msg.author.avatar_url}")
+            embed.add_field(name="ID", value=f"{msg.author.id}", inline=False)
+            embed.add_field(name="계정 생성일", value=msg.author.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            embed.add_field(name="서버에 들어온 날!", value=f"{msg.author.joined_at.year}년 {msg.author.joined_at.month}월 {msg.author.joined_at.day}일", inline=False)
+            embed.add_field(name="서버 닉네임", value=f"{msg.author.display_name}", inline=False)
+            if msg.author.premium_since is not None:
+                embed.add_field(name="서버 부스트 시작일", value=msg.author.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            embed.add_field(name="현제 상태", value=f"{msg.author.status}", inline=False)
+            embed.add_field(name="봇 여부", value=f"{msg.author.bot}", inline=False)
+            embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{msg.author.system}", inline=False)
+        except:
+            pass
+        await msg.channel.send(embed=embed)
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
