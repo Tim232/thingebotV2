@@ -33,7 +33,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print("준비 완료!")
-    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.22"]
+    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.23"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
@@ -150,7 +150,7 @@ async def _unban(ctx, *, user_name):
 @bot.command(name="지워", pass_context=True)
 async def _clear(ctx, *, amount=5):
     await ctx.channel.purge(limit=amount + 1)
-    await ctx.send(f"{ctx.author.name}에 의해 메시지 {amount}개가 지워졌어요!", delete_after=1)
+    await ctx.send(f"{ctx.author.name}에 의해 메시지 {amount}개가 지워졌어요!", delete_after=3)
 
 @bot.command(name="코로나현황")
 async def covid(ctx):
@@ -316,7 +316,7 @@ async def qrcode(ctx, *, qrmsg):
     embed.set_image(url=f"{qrserver + qrmsg}")
     await loadingmsg.edit(embed=embed)
 
-@bot.command(name="찬반투표")
+@bot.command(name="투표")
 async def chanbanpoll(ctx, *, msg):
     embed = discord.Embed(
             title="<a:poll:786499385248579615>찬반투표<a:poll:786499385248579615>",
@@ -344,7 +344,7 @@ async def on_guild_remove(guild):
         c = 786076322945564682
         embed = discord.Embed(
                 title="띵이봇이 서버에서 쫓겨났어요 ㅜ.ㅜ",
-                    description=f"띵이봇이 {guild.name}({guild.id}) 서버에서 띵이봇이 쫓겨났어요 ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ!",
+                description=f"띵이봇이 {guild.name}({guild.id}) 서버에서 띵이봇이 쫓겨났어요 ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ.ㅜ!",
                 color=RandomColor()
             )
         embed.set_thumbnail(url=f"{guild.icon_url}")
@@ -359,6 +359,58 @@ async def emoji(ctx):
         )
     embed.set_footer(text="너무 찬란해서 눈뜨고 못. 볼. 껄. 요!\n아니라고요? 죄송해요 ㅜ.ㅜ")
     await ctx.send(embed=embed)
+
+@bot.command(name="크레딧")
+async def credit(ctx):
+    embed = discord.Embed(
+            title="크레딧",
+            color=RandomColor()
+        )
+    embed.add_field(name="띵이봇 크레딧", value="https://github.com/TEAMTEB/thingebotV2/wiki/%ED%81%AC%EB%A0%88%EB%94%A7-%7C-Credits", inline=False)
+    embed.set_footer(text="띵이봇의 크레딧입니다!")
+    await ctx.send(embed=embed)
+
+@commands.has_permissions(administrator=True)
+@bot.command(name="채널생성")
+async def createchannel(ctx, ctype, *, name):
+    embed = discord.Embed(
+        title="<a:loading:786771223929028640>채널 만드는중...<a:loading:786771223929028640>",
+        description=f"띵이봇이 {name}이라는 이름의 {ctype} 채널을 만드는 중이에요!",
+        color=RandomColor()
+        )
+    loadingmsg2 = await ctx.send(embed=embed)
+    if ctype == "채팅":
+        c = await ctx.channel.guild.create_text_channel(name)
+        embed = discord.Embed(
+            title="채널 완성!",
+            description=f"띵이봇이 <#{c.id}>이라는 이름의 {ctype} 채널을 만드는데 성공했어요!",
+            color=RandomColor()
+            )
+        await loadingmsg2.edit(embed=embed)
+    if ctype == "음성":
+        c = await ctx.channel.guild.create_voice_channel(name)
+        inv = await c.create_invite()
+        embed = discord.Embed(
+            title="채널 완성!",
+            description=f"띵이봇이 [{c.name}]({inv})라는 이름의 {ctype} 채널을 만드는데 성공했어요!",
+            color=RandomColor()
+            )
+        await loadingmsg2.edit(embed=embed)
+    if ctype == "카테고리":
+        await ctx.channel.guild.create_category(name)
+        embed = discord.Embed(
+            title="카테고리 완성!",
+            description=f"띵이봇이 {name}이라는 이름의 {ctype}를 만드는데 성공했어요!",
+            color=RandomColor()
+            )
+        await loadingmsg2.edit(embed=embed)
+    if ctype is not "음성" and not "채팅" and not "카테고리":
+        embed = discord.Embed(
+            title="채널 생성 실패...!",
+            description=f"띵이봇이 {name}이라는 이름의 {ctype} 채널을 만드는데 실패했어요...\n그런데 {ctype}이란 채널 종류가 있었나?",
+            color=RandomColor()
+            )
+        await loadingmsg2.edit(embed=embed)
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
