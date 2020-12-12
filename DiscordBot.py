@@ -422,9 +422,10 @@ async def myinfo(msg, *, user: discord.Member=None):
             embed.add_field(name="서버 닉네임", value=f"{user.display_name}", inline=False)
             if msg.author.premium_since is not None:
                 embed.add_field(name="서버 부스트 시작일", value=user.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-            embed.add_field(name="현 상태", value=f"{user.status}\n(online=온라인, online=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
+            embed.add_field(name="현재 상태", value=f"{user.status}\n(online=온라인, online=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
             embed.add_field(name="봇 여부", value=f"{user.bot}", inline=False)
             embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{user.system}", inline=False)
+            embed.add_field(name="역할들", value="".join([role.mention for role in user.roles]), inline=False)
         except:
             pass
         await msg.channel.send(embed=embed)
@@ -445,6 +446,7 @@ async def myinfo(msg, *, user: discord.Member=None):
             embed.add_field(name="현재 상태", value=f"{msg.author.status}\n(online=온라인, online=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
             embed.add_field(name="봇 여부", value=f"{msg.author.bot}", inline=False)
             embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{msg.author.system}", inline=False)
+            embed.add_field(name="역할들", value="".join([role.mention for role in msg.author.roles]), inline=False)
         except:
             pass
         await msg.channel.send(embed=embed)
