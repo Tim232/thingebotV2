@@ -33,7 +33,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print("준비 완료!")
-    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.23"]
+    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.24"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
@@ -411,6 +411,16 @@ async def createchannel(ctx, ctype, *, name):
             color=RandomColor()
             )
         await loadingmsg2.edit(embed=embed)
+                        
+@commands.has_permissions(administrator=True)
+@bot.command(name="닉네임변경")
+async def id_(ctx, user: discord.Member, *, newname=None):
+    if newname is not None:
+        await user.edit(nick=newname)
+        await ctx.send(f"{user.mention}님의 닉네임을 {newname}으로 변경했어요!!")
+    else:
+        await user.edit(nick=user.name)
+        await ctx.send(f"{user.mention}님의 닉네임을 초기화했어요!")
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
