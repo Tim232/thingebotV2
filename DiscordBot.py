@@ -154,6 +154,12 @@ async def _clear(ctx, *, amount=5):
 
 @bot.command(name="코로나현황")
 async def covid(ctx):
+    embed = discord.Embed(
+        title=f"<a:loading:786771223929028640>코로나 현황 로딩중...<a:loading:786771223929028640>",
+        description="코로나 현황을 로딩중입니다!",
+        color=RandomColor()
+    )
+    loadmsg = await ctx.send(embed=embed)
     response = requests.get(korea + key)
     text = response.text
     data = json.loads(text)
@@ -167,7 +173,7 @@ async def covid(ctx):
     embed.add_field(name="국내 사망자", value=f"{data['TotalDeath']}(+{data['TodayDeath']})", inline=False)
     embed.add_field(name="국내 치료중", value=f"{data['NowCase']}", inline=False)
     embed.add_field(name="해외 코로나 현황", value="https://www.worldometers.info/coronavirus/index.php", inline=False)
-    await ctx.send(embed=embed)
+    await loadmsg.edit(embed=embed)
 
 @bot.command(name="채널정보")
 async def channelinfo(message):
