@@ -33,7 +33,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print("준비 완료!")
-    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.26.4"]
+    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.26.5"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
@@ -408,8 +408,14 @@ async def id_(ctx, user: discord.Member, *, newname=None):
 
 @bot.command(name="프로필")
 async def myinfo(msg, *, user: discord.Member=None):
+    status_dict: statusd = {discord.Status.online: '온라인',
+        discord.Status.offline: '오프라인',
+        discord.Status.idle: '자리비움',
+        discord.Status.do_not_disturb: '방해금지',
+    }
     if user is not None:
-        try:    
+        try:
+            user_status = status_dict[user.status]
             embed = discord.Embed(
                     title=f"{user.name}#{user.discriminator}의 정보",
                     description=f"{user.mention}의 정보를 보여드립니다...",
@@ -422,7 +428,7 @@ async def myinfo(msg, *, user: discord.Member=None):
             embed.add_field(name="서버 닉네임", value=f"{user.display_name}", inline=False)
             if msg.author.premium_since is not None:
                 embed.add_field(name="서버 부스트 시작일", value=user.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-            embed.add_field(name="현재 상태", value=f"{user.status}\n(online=온라인, offline=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
+            embed.add_field(name="현재 상태", value=f"{user_status}", inline=False)
             embed.add_field(name="봇 여부", value=f"{user.bot}", inline=False)
             embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{user.system}", inline=False)
             embed.add_field(name="역할들", value="".join([role.mention for role in user.roles]), inline=False)
@@ -430,7 +436,8 @@ async def myinfo(msg, *, user: discord.Member=None):
             pass
         await msg.channel.send(embed=embed)
     else:
-        try:    
+        try:
+            user_status = status_dict[msg.author.status]
             embed = discord.Embed(
                     title=f"{msg.author.name}#{msg.author.discriminator}의 정보",
                     description=f"{msg.author.mention}의 정보에요!",
@@ -443,7 +450,7 @@ async def myinfo(msg, *, user: discord.Member=None):
             embed.add_field(name="서버 닉네임", value=f"{msg.author.display_name}", inline=False)
             if msg.author.premium_since is not None:
                 embed.add_field(name="서버 부스트 시작일", value=msg.author.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-            embed.add_field(name="현재 상태", value=f"{msg.author.status}\n(online=온라인, offline=오프라인, idle=자리비움, dnd=다른용무중)", inline=False)
+            embed.add_field(name="현재 상태", value=f"{user_status}", inline=False)
             embed.add_field(name="봇 여부", value=f"{msg.author.bot}", inline=False)
             embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{msg.author.system}", inline=False)
             embed.add_field(name="역할들", value="".join([role.mention for role in msg.author.roles]), inline=False)
