@@ -4,3 +4,5 @@
 
 도움말
 > 이제는 띵이봇 위키에서 만나요! https://github.com/OHvrything/thingebotV2/wiki
+
+[오픈소스 이용약관을 꼭 확인해주세요!](https://teb.kro.kr/bot/opensource/)
