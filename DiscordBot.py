@@ -76,10 +76,6 @@ async def on_command_error(ctx, error):
             embed.add_field(name="오류 발생자", value=f"```{ctx.author.mention}```")
             await bot.get_channel(int(c)).send(embed=embed)
 
-@bot.command(name="따라해")
-async def Echo(ctx, *, text: str):
-    await ctx.send(text)
-
 @bot.command(name="hellothisisverification")
 async def ping(ctx):
     await ctx.send('애브리띵#2227(694017913723682946)')
