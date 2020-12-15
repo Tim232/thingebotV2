@@ -43,7 +43,7 @@ async def on_ready():
     )
     await bot.get_channel(int(c)).send(embed=embed)
     while True:
-        activity=discord.Game(name=messages[0]))
+        activity=discord.Game(name=messages[0])
         messages.append(messages.pop(0))
         await asyncio.sleep(5)
 
