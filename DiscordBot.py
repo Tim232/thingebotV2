@@ -28,14 +28,13 @@ INTENTS = discord.Intents.all()
 bot = commands.Bot(command_prefix=['?', '띵아 '], intents=INTENTS)
 Ping = PingPong(URL, Authorization)
 
-playing = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr"]
-
 @bot.event
 async def on_ready():
     global playing
     print(bot.user.name)
     print(bot.user.id)
     print("준비 완료!")
+    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.26.5"]
     c = 786076322945564682
     embed = discord.Embed(
         title="띵이봇 켜짐!",
@@ -44,8 +43,8 @@ async def on_ready():
     )
     await bot.get_channel(int(c)).send(embed=embed)
     while True:
-        await bot.change_presence(activity=discord.Game(name=playing[0]))
-        playing.append(playing.pop(0))
+        activity=discord.Game(name=messages[0]))
+        messages.append(messages.pop(0))
         await asyncio.sleep(5)
 
 @bot.listen()
