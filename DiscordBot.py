@@ -486,6 +486,19 @@ async def myinfo(msg, *, user: discord.Member=None):
         except:
             pass
         await msg.channel.send(embed=embed)
+                        
+@bot.command(name="계산")
+async def math(ctx, mtype, num1, num2):
+    if mtype == "더하기":
+        await ctx.send(f"결과가 나왔어요!\n**{int(num1)}+{int(num2)}**는 **{int(num1) + int(num2)}**에요!")
+    elif mtype == "빼기":
+        await ctx.send(f"결과가 나왔어요!\n**{int(num1)}-{int(num2)}**는 **{int(num1) - int(num2)}**에요!")
+    elif mtype == "곱하기":
+        await ctx.send(f"결과가 나왔어요!\n**{int(num1)}×{int(num2)}**는 **{int(num1) * int(num2)}**에요!")
+    elif mtype == "나누기":
+        await ctx.send(f"결과가 나왔어요!\n**{int(num1)}÷{int(num2)}**는 **{int(num1) / int(num2)}**에요!")
+    else:
+        await ctx.send("알 수 없는 계산 타입이에요...\n사용 가능한 계산 타입은 **더하기, 빼기, 곱하기, 나누기**에요!")
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
