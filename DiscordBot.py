@@ -67,9 +67,10 @@ async def on_command_error(ctx, error):
         try:
             embed = discord.Embed(
                     title="띵이봇에게 오류가 발생했어요...",
-                    description=f"{ctx.channel.guild}({ctx.channel.guild.id}) 서버에서 띵이봇에게 오류가 발생했어요... ㅜㅜ",
+                    description="띵이봇에게 오류가 발생했어요... ㅜㅜ",
                     color=RandomColor()
                 )
+            embed.add_field(name="오류 발생 서버, 채널", value=f"{ctx.author.guild.name}({ctx.channel.guild.id}), {ctx.channel.name}({ctx.channel.id})")
             embed.add_field(name="오류 발생 커맨드", value=f"{ctx.message.content}")
             embed.add_field(name="오류 발생자", value=f"{ctx.author.mention}")
             await bot.get_channel(int(c)).send(embed=embed)
