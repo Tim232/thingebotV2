@@ -30,13 +30,12 @@ Ping = PingPong(URL, Authorization)
 
 @bot.event
 async def on_ready():
-    global playing
     print(bot.user.name)
     print(bot.user.id)
     print("준비 완료!")
-    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.26.5"]
+    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.27"]
     while True:
-        activity=discord.Game(name=messages[0])
+        await client.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
         await asyncio.sleep(5)
 
