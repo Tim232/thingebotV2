@@ -7,6 +7,7 @@ import time
 import requests
 import json
 import asyncio
+import ast
 
 korea = "http://api.corona-19.kr/korea?serviceKey="
 key = (os.environ['covidtoken']) #API 키(https://api.corona-19.kr/ 에서 무료 발급 가능)
@@ -513,12 +514,6 @@ async def botinfo(ctx):
     embed.add_field(name="서버 수", value=f"{len(bot.guilds)}", inline=False)
     embed.add_field(name="유저 수", value=f"{len(bot.users)}", inline=False)
     ctx.send(embed=embed)
-
-def writepoint(id, addpoint):
-    pointroute = f'{id}.txt'
-    a = open(pointroute, 'w')
-    a.write(str(addpoint))
-    a.close()
 
 def insert_returns(body):
     if isinstance(body[-1], ast.Expr):
