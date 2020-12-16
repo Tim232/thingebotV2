@@ -40,7 +40,7 @@ async def on_ready():
             color=RandomColor()
         )
     await bot.get_channel(int(c)).send(embed=embed)
-    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.27.1"]
+    messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.27.2"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
@@ -70,6 +70,7 @@ async def on_command_error(ctx, error):
                     description="띵이봇에게 오류가 발생했어요... ㅜㅜ",
                     color=RandomColor()
                 )
+            embed.add_field(name="오류 내용", value=f"```{error}```")
             embed.add_field(name="오류 발생 서버, 채널", value=f"{ctx.author.guild.name}({ctx.channel.guild.id}), {ctx.channel.name}({ctx.channel.id})")
             embed.add_field(name="오류 발생 커맨드", value=f"{ctx.message.content}")
             embed.add_field(name="오류 발생자", value=f"{ctx.author.mention}")
@@ -80,6 +81,7 @@ async def on_command_error(ctx, error):
                     description="띵이봇에게 오류가 발생했어요... ㅜㅜ",
                     color=RandomColor()
                 )
+            embed.add_field(name="오류 내용", value=f"```{error}```")
             embed.add_field(name="오류 발생 커맨드", value=f"{ctx.message.content}")
             embed.add_field(name="오류 발생자", value=f"{ctx.author.mention}")
             await bot.get_channel(int(c)).send(embed=embed)
