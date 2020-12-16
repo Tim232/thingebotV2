@@ -64,14 +64,17 @@ async def on_command_error(ctx, error):
         embed.add_field(name="오류 내용", value=f"```{error}```")
         await ctx.send(embed=embed)
         c = 786076322945564682
-        embed = discord.Embed(
-                title="띵이봇에게 오류가 발생했어요...",
-                description=f"{ctx.channel.guild}({ctx.channel.guild.id}) 서버에서 띵이봇에게 오류가 발생했어요... ㅜㅜ",
-                color=RandomColor()
-            )
-        embed.add_field(name="오류 발생 커맨드", value=f"{ctx.message.content}")
-        embed.add_field(name="오류 발생자", value=f"{ctx.author.mention}")
-        await bot.get_channel(int(c)).send(embed=embed)
+        try:
+            embed = discord.Embed(
+                    title="띵이봇에게 오류가 발생했어요...",
+                    description=f"{ctx.channel.guild}({ctx.channel.guild.id}) 서버에서 띵이봇에게 오류가 발생했어요... ㅜㅜ",
+                    color=RandomColor()
+                )
+            embed.add_field(name="오류 발생 커맨드", value=f"{ctx.message.content}")
+            embed.add_field(name="오류 발생자", value=f"{ctx.author.mention}")
+            await bot.get_channel(int(c)).send(embed=embed)
+        except:
+            pass
 
 
 @bot.command(name="따라해")
