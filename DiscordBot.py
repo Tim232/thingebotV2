@@ -151,20 +151,20 @@ async def pingandpong(ctx):
     latancy = bot.latency
     await ctx.send("\U0001F4E2"f' Pong! {round(latancy * 1000)}ms')
 
-@commands.has_permissions(administrator=True)
-@bot.command(name="kick")
+@commands.has_permissions(kick_members=True)
+@bot.command(name="kick", pass_context=True)
 async def _kick(ctx, *, user_name: discord.Member, reason=None):
     await user_name.kick(reason=reason)
     await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 추방하였습니다!")
 
-@commands.has_permissions(administrator=True)
-@bot.command(name="ban")
+@commands.has_permissions(ban_members=True)
+@bot.command(name="ban", pass_context=True)
 async def _ban(ctx, *, user_name: discord.Member):
     await user_name.ban()
     await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 이 서버에서 밴해버렸습니다!")
 
-@commands.has_permissions(administrator=True)
-@bot.command(name="unban")
+@commands.has_permissions(ban_members=True)
+@bot.command(name="unban", pass_context=True)
 async def _unban(ctx, *, user_name):
     banned_users = await ctx.guild.bans()
     member_name, member_discriminator = user_name.split('#')
@@ -175,8 +175,8 @@ async def _unban(ctx, *, user_name):
             await ctx.send(f"<a:mangchi:786785085659021364>{user.mention}을(를) 밴 해제했어요!")
             return
 
-@commands.has_permissions(administrator=True)
-@bot.command(name="지워")
+@commands.has_permissions(manage_messages=True)
+@bot.command(name="지워", pass_context=True)
 async def _clear(ctx, *, amount=5):
     await ctx.channel.purge(limit=amount + 1)
     await ctx.send(f"{ctx.author.name}에 의해 메시지 {amount}개가 지워졌어요!", delete_after=3)
@@ -194,7 +194,7 @@ async def covid(ctx):
     data = json.loads(text)
     embed = discord.Embed(
         title=f"<:covid:783582454619045910>{data['updateTime']}<:covid:783582454619045910>",
-        description="마스크 쓰GO! :",
+        description="코로나는 코리아를 이길 수 없습니다! :3",
         color=RandomColor()
     )
     embed.add_field(name="국내 확진자", value=f"{data['TotalCase']}(+{data['TotalCaseBefore']})", inline=False)
@@ -383,7 +383,7 @@ async def credit(ctx):
     embed.set_footer(text="띵이봇의 크레딧입니다!")
     await ctx.send(embed=embed)
 
-@commands.has_permissions(administrator=True)
+@commands.has_permissions(manage_channels=True)
 @bot.command(name="채널생성")
 async def createchannel(ctx, ctype, *, name):
     embed = discord.Embed(
@@ -425,7 +425,7 @@ async def createchannel(ctx, ctype, *, name):
             )
         await loadingmsg2.edit(embed=embed)
 
-@commands.has_permissions(administrator=True)
+@commands.has_permissions(manage_nicknames=True)
 @bot.command(name="닉네임변경")
 async def id_(ctx, user: discord.Member, *, newname=None):
     if newname is not None:
@@ -437,56 +437,59 @@ async def id_(ctx, user: discord.Member, *, newname=None):
 
 @bot.command(name="프로필")
 async def myinfo(msg, *, user: discord.Member=None):
-    status_dict: statusd = {discord.Status.online: '온라인',
-        discord.Status.offline: '오프라인',
-        discord.Status.idle: '자리비움',
-        discord.Status.do_not_disturb: '방해금지',
+    status_dict: statusd = {discord.Status.online: '<a:online:787316219694546955>온라인',
+        discord.Status.offline: '<a:offline:787574825496608808>오프라인',
+        discord.Status.idle: '<a:idle:787573715298418739>자리비움',
+        discord.Status.do_not_disturb: '<a:dnd:787577042425479189>방해금지',
     }
-    if user is not None:
-        try:
-            user_status = status_dict[user.status]
-            embed = discord.Embed(
-                    title=f"{user.name}#{user.discriminator}의 정보",
-                    description=f"{user.mention}의 정보를 보여드립니다...",
-                    color=RandomColor()
-                )
-            embed.set_thumbnail(url=f"{user.avatar_url}")
-            embed.add_field(name="ID", value=f"{user.id}", inline=False)
-            embed.add_field(name="계정 생성일", value=user.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-            embed.add_field(name="서버에 들어온 날!", value=f"{user.joined_at.year}년 {user.joined_at.month}월 {user.joined_at.day}일", inline=False)
-            embed.add_field(name="서버 닉네임", value=f"{user.display_name}", inline=False)
-            if msg.author.premium_since is not None:
-                embed.add_field(name="서버 부스트 시작일", value=user.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-            embed.add_field(name="현재 상태", value=f"{user_status}", inline=False)
-            embed.add_field(name="봇 여부", value=f"{user.bot}", inline=False)
-            embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{user.system}", inline=False)
-            embed.add_field(name="역할들", value="".join([role.mention for role in user.roles]), inline=False)
-        except:
-            pass
-        await msg.channel.send(embed=embed)
-    else:
-        try:
-            user_status = status_dict[msg.author.status]
-            embed = discord.Embed(
-                    title=f"{msg.author.name}#{msg.author.discriminator}의 정보",
-                    description=f"{msg.author.mention}의 정보에요!",
-                    color=RandomColor()
-                )
-            embed.set_thumbnail(url=f"{msg.author.avatar_url}")
-            embed.add_field(name="ID", value=f"{msg.author.id}", inline=False)
-            embed.add_field(name="계정 생성일", value=msg.author.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-            embed.add_field(name="서버에 들어온 날!", value=f"{msg.author.joined_at.year}년 {msg.author.joined_at.month}월 {msg.author.joined_at.day}일", inline=False)
-            embed.add_field(name="서버 닉네임", value=f"{msg.author.display_name}", inline=False)
-            if msg.author.premium_since is not None:
-                embed.add_field(name="서버 부스트 시작일", value=msg.author.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-            embed.add_field(name="현재 상태", value=f"{user_status}", inline=False)
-            embed.add_field(name="봇 여부", value=f"{msg.author.bot}", inline=False)
-            embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{msg.author.system}", inline=False)
-            embed.add_field(name="역할들", value="".join([role.mention for role in msg.author.roles]), inline=False)
-        except:
-            pass
-        await msg.channel.send(embed=embed)
-                        
+    if msg.channel is not discord.DMChannel:
+        if user is not None:
+            try:
+                user_status = status_dict[user.status]
+                embed = discord.Embed(
+                        title=f"{user.name}#{user.discriminator}의 정보",
+                        description=f"{user.mention}의 정보를 보여드립니다...",
+                        color=RandomColor()
+                    )
+                embed.set_thumbnail(url=f"{user.avatar_url}")
+                embed.add_field(name="ID", value=f"{user.id}", inline=False)
+                embed.add_field(name="계정 생성일", value=user.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+                embed.add_field(name="서버에 들어온 날!", value=f"{user.joined_at.year}년 {user.joined_at.month}월 {user.joined_at.day}일", inline=False)
+                embed.add_field(name="서버 닉네임", value=f"{user.display_name}", inline=False)
+                if msg.author.premium_since is not None:
+                    embed.add_field(name="서버 부스트 시작일", value=user.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+                embed.add_field(name="현재 상태", value=f"{user_status}({user.status})", inline=False)
+                embed.add_field(name="봇 여부", value=f"{user.bot}", inline=False)
+                embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{user.system}", inline=False)
+                embed.add_field(name="역할들", value="".join([role.mention for role in user.roles]), inline=False)
+                await msg.send(embed=embed)
+            except:
+                await msg.send("오류가 발생했습니다.\n혹시 DM 채널에서 사용하고계신가요? 서버에서 사용 부탁드려요 :)")
+                pass
+        else:
+            try:
+                user_status = status_dict[msg.author.status]
+                embed2 = discord.Embed(
+                        title=f"{msg.author.name}#{msg.author.discriminator}의 정보",
+                        description=f"{msg.author.mention}의 정보에요!",
+                        color=RandomColor()
+                    )
+                embed2.set_thumbnail(url=f"{msg.author.avatar_url}")
+                embed2.add_field(name="ID", value=f"{msg.author.id}", inline=False)
+                embed2.add_field(name="계정 생성일", value=msg.author.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+                embed2.add_field(name="서버에 들어온 날!", value=f"{msg.author.joined_at.year}년 {msg.author.joined_at.month}월 {msg.author.joined_at.day}일", inline=False)
+                embed2.add_field(name="서버 닉네임", value=f"{msg.author.display_name}", inline=False)
+                if msg.author.premium_since is not None:
+                    embed2.add_field(name="서버 부스트 시작일", value=msg.author.premium_since.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+                embed2.add_field(name="현재 상태", value=f"{user_status}({msg.author.status})", inline=False)
+                embed2.add_field(name="봇 여부", value=f"{msg.author.bot}", inline=False)
+                embed2.add_field(name="디스코드 시스템 메시지 여부", value=f"{msg.author.system}", inline=False)
+                embed2.add_field(name="역할들", value="".join([role.mention for role in msg.author.roles]), inline=False)
+                await msg.send(embed=embed2)
+            except:
+                await msg.send("오류가 발생했습니다.\n혹시 DM 채널에서 사용하고계신가요? 서버에서 사용 부탁드려요 :)")
+                pass
+    
 @bot.command(name="계산")
 async def math(ctx, mtype, num1, num2):
     if mtype == "더하기":
@@ -499,6 +502,17 @@ async def math(ctx, mtype, num1, num2):
         await ctx.send(f"결과가 나왔어요!\n**{int(num1)}÷{int(num2)}**는 **{int(num1) / int(num2)}**에요!")
     else:
         await ctx.send("알 수 없는 계산 타입이에요...\n사용 가능한 계산 타입은 **더하기, 빼기, 곱하기, 나누기**에요!")
+
+@bot.command(name="봇정보")
+async def botinfo(ctx):
+    embed = discord.Embed(
+        title=f"띵이봇의 정보",
+        description=f"띵이봇의 정보에요!",
+        color=RandomColor()
+    )
+    embed.add_field(name="서버 수", value=f"{len(bot.guilds)}", inline=False)
+    embed.add_field(name="유저 수", value=f"{len(bot.users)}", inline=False)
+    ctx.send(embed=embed)
 
 bot.remove_command("help")
 bot.run(os.environ['token'])
