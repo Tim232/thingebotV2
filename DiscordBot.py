@@ -33,6 +33,13 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print("준비 완료!")
+    c = 786076322945564682
+    embed = discord.Embed(
+            title="띵이봇이 켜졌습니다!!",
+            description=f"띵이봇의 전원이 켜졌어요!",
+            color=RandomColor()
+        )
+    await bot.get_channel(int(c)).send(embed=embed)
     messages = ["'?도움'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.27.1"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
@@ -57,6 +64,19 @@ async def on_command_error(ctx, error):
         embed.add_field(name="오류 내용", value=f"```{error}```")
         await ctx.send(embed=embed)
         c = 786076322945564682
+        embed = discord.Embed(
+                title="띵이봇에게 오류가 발생했어요...",
+                description=f"{ctx.channel.guild}({ctx.channel.guild.id}) 서버에서 띵이봇에게 오류가 발생했어요... ㅜㅜ",
+                color=RandomColor()
+            )
+        embed.add_field(name="오류 발생 커맨드", value=f"{ctx.content}")
+        embed.add_field(name="오류 발생자", value=f"{ctx.author.mention}")
+        await bot.get_channel(int(c)).send(embed=embed)
+
+
+@bot.command(name="따라해")
+async def Echo(ctx, *, text: str):
+    await ctx.send(text)
 
 @bot.command(name="hellothisisverification")
 async def ping(ctx):
