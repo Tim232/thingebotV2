@@ -75,7 +75,14 @@ async def on_command_error(ctx, error):
             embed.add_field(name="오류 발생자", value=f"{ctx.author.mention}")
             await bot.get_channel(int(c)).send(embed=embed)
         except:
-            pass
+            embed = discord.Embed(
+                    title="띵이봇에게 오류가 발생했어요...",
+                    description="띵이봇에게 오류가 발생했어요... ㅜㅜ",
+                    color=RandomColor()
+                )
+            embed.add_field(name="오류 발생 커맨드", value=f"{ctx.message.content}")
+            embed.add_field(name="오류 발생자", value=f"{ctx.author.mention}")
+            await bot.get_channel(int(c)).send(embed=embed)
 
 
 @bot.command(name="따라해")
@@ -185,7 +192,7 @@ async def covid(ctx):
     data = json.loads(text)
     embed = discord.Embed(
         title=f"<:covid:783582454619045910>{data['updateTime']}<:covid:783582454619045910>",
-        description="코로나는 코리아를 이길 수 없습니다! :3",
+        description="마스크 쓰GO! :",
         color=RandomColor()
     )
     embed.add_field(name="국내 확진자", value=f"{data['TotalCase']}(+{data['TotalCaseBefore']})", inline=False)
