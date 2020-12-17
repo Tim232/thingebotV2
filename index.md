@@ -7,7 +7,7 @@
 
 ### 팀원들
 #### 저희들과 띵이봇을 개발하는 **소 중 한** 팀원들이에요!
-[<img src="https://cdn.discordapp.com/avatars/694017913723682946/e98b08b08ce5093f0bff9faa8f727397.png?size=256" width="100px" height="100px" title="애브리띵" alt="애브리띵">](every/)
-[<img src="https://cdn.discordapp.com/avatars/724862211251765250/124ac0e7d02545b0efa5a060e6559c4e.png?size=256" width="100px" height="100px" title="여무니" alt="여무니">](yumooni/)
+# 어?!
+소중한 팀원들은 이제 [팀 텝 공식 웹사이트](https://teb.kro.kr/members/)에 있는것같아요!
 
 [개인정보 처리방침](https://teamteb.github.io/bot/privacypolicy/)
