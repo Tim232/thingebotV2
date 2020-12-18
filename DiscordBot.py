@@ -536,5 +536,4 @@ async def eval_fn(ctx, *, cmd):
     else:
         await ctx.send("당신의 말은 듣지 못하게 설정되어있어요 ㅜㅜ...")
 
-bot.remove_command("help")
 bot.run(os.environ['token'])
