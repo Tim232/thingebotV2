@@ -88,8 +88,7 @@ async def on_command_error(ctx, error):
             embed.add_field(name="오류 발생자", value=f"{ctx.author.mention}")
             await bot.get_channel(int(c)).send(embed=embed)
 
-
-@bot.command(name="따라해", help="띵이봇이 당신의 말을 따라합니다!", usage="[따라할 말]")
+@bot.command(name="따라해", help="띵이봇이 당신의 말을 따라합니다!", usage="[따라할 말]", aliases=['repeat'])
 async def Echo(ctx, *, text: str):
     await ctx.send(text)
 
@@ -97,7 +96,7 @@ async def Echo(ctx, *, text: str):
 async def ping(ctx):
     await ctx.send('애브리띵#2227(694017913723682946)')
 
-@bot.command(name="공지", help="띵이봇의 공지설정 방법이에요!", usage="공지")
+@bot.command(name="공지", help="띵이봇의 공지설정 방법이에요!", usage="공지", aliases=['notice'])
 async def notice(ctx):
     embed = discord.Embed(
             title="<:ls:785784744382038017>공지 채널 설정 방법<:ls:785784744382038017>",
@@ -113,7 +112,7 @@ async def notice(ctx):
     await ctx.send(embed=embed)
 
 
-@bot.command(name="초대", help="띵이봇을 초대하세요!", usage="")
+@bot.command(name="초대", help="띵이봇을 초대하세요!", usage="", aliases=['invite'])
 async def invitelink(ctx):
     embed = discord.Embed(
             title="띵이봇 초대하기!",
@@ -124,27 +123,27 @@ async def invitelink(ctx):
     embed.set_footer(text="띵이봇을 초대하고 함게 놀아요!")
     await ctx.send(embed=embed)
 
-@bot.command(name="ping", help="띵이봇의 핑을 확인하세요!")
+@bot.command(name="ping", help="띵이봇의 핑을 확인하세요!", aliases=['핑', '반응속도'])
 async def pingandpong(ctx):
     latancy = bot.latency
     await ctx.send("\U0001F4E2"f' Pong! {round(latancy * 1000)}ms')
 
 @commands.has_permissions(kick_members=True)
-@bot.command(name="kick", pass_context=True, help="유저를 서버에서 킥해줍니다!", usage="[멘션] [사유]")
+@bot.command(name="kick", pass_context=True, help="유저를 서버에서 킥해줍니다!", usage="[멘션 Mention] [사유 Reason]", aliases=['킥', '추방'])
 async def _kick(ctx, user_name: discord.Member, *, reason=None):
     await user_name.kick(reason=reason)
     await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 추방하였습니다!")
     await user_name.send(f"{user_name.mention}님! 당신은 {ctx.channel.guild.name} 서버에서 아래의 사유로 추방되었습니다...\n추방 사유 : {reason}")
 
 @commands.has_permissions(ban_members=True)
-@bot.command(name="ban", pass_context=True, help="유저를 서버에서 밴해버립니다!", usage="[멘션]")
+@bot.command(name="ban", pass_context=True, help="유저를 서버에서 밴해버립니다!", usage="[멘션 Mention] [사유 Reason]", aliases=['밴', '차단'])
 async def _ban(ctx, user_name: discord.Member, *, reason=None):
     await user_name.ban(reason=reason)
     await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 이 서버에서 밴해버렸습니다!")
     await user_name.send(f"{user_name.mention}님! 당신은 {ctx.channel.guild.name} 서버에서 아래의 사유로 차단되었습니다...\n차단 사유 : {reason}")
 
 @commands.has_permissions(ban_members=True)
-@bot.command(name="unban", pass_context=True, help="유저를 밴 해제합니다!", usage="[닉네임#태그]")
+@bot.command(name="unban", pass_context=True, help="유저를 밴 해제합니다!", usage="[닉네임#태그 Username#Tag]", aliases=['언밴', '차단해제'])
 async def _unban(ctx, *, user_name):
     banned_users = await ctx.guild.bans()
     member_name, member_discriminator = user_name.split('#')
@@ -156,12 +155,12 @@ async def _unban(ctx, *, user_name):
             return
 
 @commands.has_permissions(manage_messages=True)
-@bot.command(name="지워", pass_context=True, help="띵이봇이 개수만큼 메시지를 지워줘요!", usage="[개수(기본값 5)]")
+@bot.command(name="지워", pass_context=True, help="띵이봇이 개수만큼 메시지를 지워줘요!", usage="[개수(기본값 5) Amount(default 5)]", aliases=['delete', 'purge'])
 async def _clear(ctx, *, amount=5):
     await ctx.channel.purge(limit=amount + 1)
     await ctx.send(f"{ctx.author.name}에 의해 메시지 {amount}개가 지워졌어요!", delete_after=3)
 
-@bot.command(name="코로나현황", help="코로나 19 바이러스 현황을 보여드려요!", usage="")
+@bot.command(name="코로나현황", help="코로나 19 바이러스 현황을 보여드려요!", usage="", aliases=['koreacorona'])
 async def covid(ctx):
     embed = discord.Embed(
         title=f"<a:loading:786771223929028640>코로나 현황 로딩중...<a:loading:786771223929028640>",
@@ -184,7 +183,7 @@ async def covid(ctx):
     embed.add_field(name="해외 코로나 현황", value="https://www.worldometers.info/coronavirus/index.php", inline=False)
     await loadmsg.edit(embed=embed)
 
-@bot.command(name="채널정보", help="당신이 있는 이 채널의 정보를 알려드려요!", usage="")
+@bot.command(name="채널정보", help="당신이 있는 이 채널의 정보를 알려드려요!", usage="", aliases=['channelinfo'])
 async def channelinfo(message):
     embed = discord.Embed(
             title=f"{message.channel.name}의 채널 정보",
@@ -199,7 +198,7 @@ async def channelinfo(message):
     embed.add_field(name="채널 id", value=f"{message.channel.id}", inline=False)
     await message.channel.send(embed=embed)
 
-@bot.command(name="서버정보", help="당신이 지금 계신 이 서버의 정보를 알려드려요!", usage="")
+@bot.command(name="서버정보", help="당신이 지금 계신 이 서버의 정보를 알려드려요!", usage="", aliases=['serverinfo'])
 async def svinfo(message):
     embed = discord.Embed(
             title=f"{message.guild.name}({message.guild.id})의 서버 정보",
@@ -241,7 +240,7 @@ async def on_guild_join(guild):
         embed.set_thumbnail(url=f"{guild.icon_url}")
     await bot.get_channel(int(c)).send(embed=embed) 
 
-@bot.command(name="url단축", help="url을 단축해 드립니다!", usage="[url]")
+@bot.command(name="url단축", help="url을 단축해 드립니다!", usage="[url]", aliases=['urlshorten'])
 async def urlshorten(ctx, url):
     embed = discord.Embed(
                 title="띵이봇 URL 단축기!",
@@ -272,7 +271,7 @@ async def urlshorten(ctx, url):
         embed.add_field(name="오류 내용", value=f"```{data['msg']}```")
         await urlmsg.edit(embed=embed)
 
-@bot.command(name="문의", help="띵이봇 개발자에게 메시지를 보내세요!", usage="[문의 내용]")
+@bot.command(name="문의", help="띵이봇 개발자에게 메시지를 보내세요!", usage="[문의 내용 Contents]", aliases=['contact', 'messagedev'])
 async def contact(ctx, *, msg):
     try:
         c = 786076322945564682
@@ -292,7 +291,7 @@ async def contact(ctx, *, msg):
     else:
         await ctx.send("문의 전송이 성공적으로 완료되었습니다 :D\n문의 답변은 개발자 DM으로 가니 DM을 꼭 열어두세요!")
 
-@bot.command(name="qr코드", help="qr코드를 만들어드려요!", usage="[내용]")
+@bot.command(name="qr코드", help="qr코드를 만들어드려요!", usage="[내용 Contents]", aliases=['qrcode', 'QR코드', 'QRcode'])
 async def qrcode(ctx, *, qrmsg):
     embed = discord.Embed(
             title="QR코드",
@@ -309,7 +308,7 @@ async def qrcode(ctx, *, qrmsg):
     embed.set_image(url=f"{qrserver + qrmsg}")
     await loadingmsg.edit(embed=embed)
 
-@bot.command(name="투표", help="찬반투표를 만들어드려요!", usage="[투표 내용]")
+@bot.command(name="투표", help="찬반투표를 만들어드려요!", usage="[투표 내용 Poll info]", aliases=['poll', 'vote'])
 async def chanbanpoll(ctx, *, msg):
     embed = discord.Embed(
             title="<a:poll:786499385248579615>찬반투표<a:poll:786499385248579615>",
@@ -343,7 +342,7 @@ async def on_guild_remove(guild):
         embed.set_thumbnail(url=f"{guild.icon_url}")
     await bot.get_channel(int(c)).send(embed=embed)
 
-@bot.command(name="이모지", help="띵이봇에 사용된 눈뜨고 못. 볼. 정. 도. 로 멋진 이모지를 보여드려요!", usage="")
+@bot.command(name="이모지", help="띵이봇에 사용된 눈뜨고 못. 볼. 정. 도. 로 멋진 이모지를 보여드려요!", usage="", aliases=['emoji'])
 async def emoji(ctx):
     embed = discord.Embed(
             title="띵이봇에 사용된 이모지들이에요!",
@@ -353,7 +352,7 @@ async def emoji(ctx):
     embed.set_footer(text="너무 찬란해서 눈뜨고 못. 볼. 껄. 요!\n아니라고요? 죄송해요 ㅜ.ㅜ")
     await ctx.send(embed=embed)
 
-@bot.command(name="크레딧", help="띵이봇의 모듈 등의 제작자를 알려드려요!", usage="")
+@bot.command(name="크레딧", help="띵이봇의 모듈 등의 제작자를 알려드려요!", usage="", aliases=['credit'])
 async def credit(ctx):
     embed = discord.Embed(
             title="크레딧",
@@ -364,7 +363,7 @@ async def credit(ctx):
     await ctx.send(embed=embed)
 
 @commands.has_permissions(manage_channels=True)
-@bot.command(name="채널생성", help="채널을 생성해드려요!", usage="[채팅/음성/카테고리] [제목]")
+@bot.command(name="채널생성", help="채널을 생성해드려요!", usage="[채팅/음성/카테고리] [제목]", aliases=['createchannel'])
 async def createchannel(ctx, ctype, *, name):
     embed = discord.Embed(
         title="<a:loading:786771223929028640>채널 만드는중...<a:loading:786771223929028640>",
@@ -406,7 +405,7 @@ async def createchannel(ctx, ctype, *, name):
         await loadingmsg2.edit(embed=embed)
 
 @commands.has_permissions(manage_nicknames=True)
-@bot.command(name="닉네임변경", help="사용자의 닉네임을 설정해요!", usage="[멘션] [새 닉네임] - 닉네임변경\n또는\n[멘션] - 닉네임 원래대로")
+@bot.command(name="닉네임변경", help="사용자의 닉네임을 설정해요!", usage="[멘션 Mention] [새 닉네임 New Nickname] - 닉네임변경 Change Nickname\n또는 or\n[멘션 Mention] - 닉네임 원래대로 Reset Nickname", aliases=['nickchange', 'nicknamechange'])
 async def id_(ctx, user: discord.Member, *, newname=None):
     if newname is not None:
         await user.edit(nick=newname)
@@ -415,7 +414,7 @@ async def id_(ctx, user: discord.Member, *, newname=None):
         await user.edit(nick=user.name)
         await ctx.send(f"{user.mention}님의 닉네임을 초기화했어요!")
 
-@bot.command(name="프로필", help="띵이봇이 당신의 디스코드 프로필을 보여드려요!", usage="[멘션(안할시 자신)]")
+@bot.command(name="프로필", help="띵이봇이 당신의 디스코드 프로필을 보여드려요!", usage="[멘션(안할시 자신) Mention(If not, you)]", aliases=['profile'])
 async def myinfo(msg, *, user: discord.Member=None):
     status_dict: statusd = {discord.Status.online: '<a:online:787316219694546955>온라인',
         discord.Status.offline: '<a:offline:787574825496608808>오프라인',
@@ -468,20 +467,20 @@ async def myinfo(msg, *, user: discord.Member=None):
                 await msg.send("오류가 발생했습니다.\n혹시 DM 채널에서 사용하고계신가요? 서버에서 사용 부탁드려요 :)")
                 pass
     
-@bot.command(name="계산", help="띵이봇이 수학 계산도 해드려요! 아 머리아파...", usage="[더하기/빼기/곱하기/나누기] [숫자1] [숫자2]")
+@bot.command(name="계산", help="띵이봇이 수학 계산도 해드려요! 아 머리아파...", usage="[더하기(+)/빼기(-)/곱하기(*)/나누기(/)] [숫자1 Num1] [숫자2 Num2]", aliases=['math'])
 async def math(ctx, mtype, num1, num2):
-    if mtype == "더하기":
+    if mtype == "더하기" or "+":
         await ctx.send(f"결과가 나왔어요!\n**{int(num1)}+{int(num2)}**는 **{int(num1) + int(num2)}**에요!")
-    elif mtype == "빼기":
+    elif mtype == "빼기" or "-":
         await ctx.send(f"결과가 나왔어요!\n**{int(num1)}-{int(num2)}**는 **{int(num1) - int(num2)}**에요!")
-    elif mtype == "곱하기":
+    elif mtype == "곱하기" or "*":
         await ctx.send(f"결과가 나왔어요!\n**{int(num1)}×{int(num2)}**는 **{int(num1) * int(num2)}**에요!")
-    elif mtype == "나누기":
+    elif mtype == "나누기" or "/":
         await ctx.send(f"결과가 나왔어요!\n**{int(num1)}÷{int(num2)}**는 **{int(num1) / int(num2)}**에요!")
     else:
         await ctx.send("알 수 없는 계산 타입이에요...\n사용 가능한 계산 타입은 **더하기, 빼기, 곱하기, 나누기**에요!")
 
-@bot.command(name="봇정보", help="띵이봇의 정보를 보여드려요!", usage="")
+@bot.command(name="봇정보", help="띵이봇의 정보를 보여드려요!", usage="", aliases=['botinfo'])
 async def botinfo(ctx):
     embed = discord.Embed(
         title=f"띵이봇의 정보",
@@ -505,7 +504,7 @@ def insert_returns(body):
     if isinstance(body[-1], ast.With):
         insert_returns(body[-1].body)
 
-@bot.command(name='실행', help="주인용 명령어!", usage="[실행할 커맨드]")
+@bot.command(name='실행', help="주인용 명령어!", usage="[실행할 커맨드]", aliases=['cmd', 'run', 'eval'])
 async def eval_fn(ctx, *, cmd):
     owner = [694017913723682946, 724862211251765250]
     if ctx.author.id in owner:
