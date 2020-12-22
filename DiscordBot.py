@@ -41,7 +41,7 @@ async def on_ready():
             color=RandomColor()
         )
     await bot.get_channel(int(c)).send(embed=embed)
-    messages = ["'?help'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.32",f"유저 {len(bot.users)}명, 길드 {len(bot.guilds)}개에서 함께하는 중!"]
+    messages = ["'?help'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.33",f"유저 {len(bot.users)}명, 길드 {len(bot.guilds)}개에서 함께하는 중!"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
@@ -130,15 +130,17 @@ async def pingandpong(ctx):
 
 @commands.has_permissions(kick_members=True)
 @bot.command(name="kick", pass_context=True, help="유저를 서버에서 킥해줍니다!", usage="[멘션] [사유]")
-async def _kick(ctx, *, user_name: discord.Member, reason=None):
+async def _kick(ctx, user_name: discord.Member, *, reason=None):
     await user_name.kick(reason=reason)
     await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 추방하였습니다!")
+    await user_name.send(f"{user_name.mention}님! 당신은 {ctx.channel.guild.name} 서버에서 아래의 사유로 추방되었습니다...\n추방 사유 : {reason}")
 
 @commands.has_permissions(ban_members=True)
 @bot.command(name="ban", pass_context=True, help="유저를 서버에서 밴해버립니다!", usage="[멘션]")
-async def _ban(ctx, *, user_name: discord.Member):
-    await user_name.ban()
+async def _ban(ctx, user_name: discord.Member, *, reason=None):
+    await user_name.ban(reason=reason)
     await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 이 서버에서 밴해버렸습니다!")
+    await user_name.send(f"{user_name.mention}님! 당신은 {ctx.channel.guild.name} 서버에서 아래의 사유로 차단되었습니다...\n차단 사유 : {reason}")
 
 @commands.has_permissions(ban_members=True)
 @bot.command(name="unban", pass_context=True, help="유저를 밴 해제합니다!", usage="[닉네임#태그]")
@@ -205,7 +207,7 @@ async def svinfo(message):
         )
     embed.set_thumbnail(url=f"{message.guild.icon_url}")
     embed.add_field(name="서버 주인", value=f"{message.guild.owner.mention}({message.guild.owner_id})", inline=False)
-    embed.add_field(name="멤버수", value=f"{message.guild.member_count}명", inline=False)
+    embed.add_field(name="멤버수", value=f"{message.guild.member_count}명(사람 {len(list(filter(lambda x: not x.bot, message.guild.members)))}명, 봇 {len(list(filter(lambda x: x.bot, message.guild.members)))})", inline=False)
     embed.add_field(name="생성일", value=f"{message.guild.created_at}", inline=False)
     embed.add_field(name="AFK 채널, AFK 시간", value=f"{message.guild.afk_channel}, {message.guild.afk_timeout / 60}분", inline=False)
     embed.add_field(name="기본 역할", value=f"{message.guild.default_role}", inline=False)
@@ -535,5 +537,26 @@ async def eval_fn(ctx, *, cmd):
         await ctx.send(embed=msgembed)
     else:
         await ctx.send("당신의 말은 듣지 못하게 설정되어있어요 ㅜㅜ...")
+
+@bot.event
+async def on_member_join(member):
+    embed = discord.Embed(
+        title=f"👋안녕하세요!",
+        description=f"안녕하세요! {member.mention}님! {member.guild.name} 서버에 오신것을 환영해요!",
+        color=RandomColor()
+    )
+    embed.set_thumbnail(url=member.avatar_url)
+    embed.set_footer(text=member.joined_at.strftime("%Y-%m-%d %H:%M:%S"))
+    await member.guild.system_channel.send(f"{member.mention}", embed=embed)
+    
+@bot.event
+async def on_member_remove(member):
+    embed = discord.Embed(
+        title=f"🖐안녕히가세요...",
+        description=f"안녕히가세요... {member.mention}님. {member.guild.name} 서버에 꼭 다시 오셔야해요...!",
+        color=RandomColor()
+    )
+    embed.set_thumbnail(url=member.avatar_url)
+    await member.guild.system_channel.send(embed=embed)
 
 bot.run(os.environ['token'])
