@@ -30,6 +30,7 @@ URL = "https://builder.pingpong.us/api/builder/5f8bdb67e4b07b8420a30e71/integrat
 INTENTS = discord.Intents.all()
 bot = commands.Bot(command_prefix=['?', '띵아 '], intents=INTENTS)
 Ping = PingPong(URL, Authorization)
+KBot = koreanbots.Client(bot, (os.environ['kbtoken']))
 
 @bot.event
 async def on_ready():
