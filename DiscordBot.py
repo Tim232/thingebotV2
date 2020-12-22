@@ -44,7 +44,7 @@ async def on_ready():
             color=RandomColor()
         )
     await bot.get_channel(int(c)).send(embed=embed)
-    messages = ["'?help'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.34",f"유저 {len(bot.users)}명, 길드 {len(bot.guilds)}개에서 함께하는 중!"]
+    messages = ["'?help'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.35",f"유저 {len(bot.users)}명, 길드 {len(bot.guilds)}개에서 함께하는 중!"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
@@ -560,5 +560,28 @@ async def on_member_remove(member):
     )
     embed.set_thumbnail(url=member.avatar_url)
     await member.guild.system_channel.send(embed=embed)
+
+@bot.command(name="타이머", help="타이머를 맟춰줘요!", usage="[m/s] [숫자 Number] [내용 Content]", aliases=['timer'])
+async def timer(ctx, mors, num, *, desc="없음"):
+    if mors == "m":
+        embed = discord.Embed(
+            title=f"{num}분동안 타이머를 시작합니다!\n\n{ctx.author.mention}님의 타이머입니다!",
+            description=f"{desc}",
+            color=RandomColor()
+        )
+        await ctx.send(embed=embed)
+        await asyncio.sleep(int(num) * 60)
+        await ctx.send(f"{ctx.author.mention}님! {num}분의 타이머가 끝났어요!\n내용: {desc}")
+    if mors == "s":
+        embed = discord.Embed(
+            title=f"{num}초동안 타이머를 시작합니다!",
+            description=f"{desc}\n\n{ctx.author.mention}님의 타이머입니다!",
+            color=RandomColor()
+        )
+        await ctx.send(embed=embed)
+        await asyncio.sleep(int(num))
+        await ctx.send(f"{ctx.author.mention}님! {num}초의 타이머가 끝났어요!\n내용: {desc}")
+    else:
+        await ctx.send(f"{ctx.author.mention}, 으에? 그런 단위는 없는것같은데...\n사용 가능한 시간의 단위는 분(m) 그리고 초(s)에요!")
                         
 bot.run(os.environ['token'])
