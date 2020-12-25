@@ -32,6 +32,8 @@ bot = commands.Bot(command_prefix=['?', '띵아 '], intents=INTENTS)
 Ping = PingPong(URL, Authorization)
 KBot = koreanbots.Client(bot, (os.environ['kbtoken']))
 
+v = "TEB 2.35"
+
 @bot.event
 async def on_ready():
     print(bot.user.name)
@@ -44,7 +46,7 @@ async def on_ready():
             color=RandomColor()
         )
     await bot.get_channel(int(c)).send(embed=embed)
-    messages = ["'?help'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.35",f"유저 {len(bot.users)}명, 길드 {len(bot.guilds)}개에서 함께하는 중!"]
+    messages = ["'?help'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr",f"{v}",f"유저 {len(bot.users)}명, 길드 {len(bot.guilds)}개에서 함께하는 중!"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
@@ -492,6 +494,7 @@ async def botinfo(ctx):
     embed.add_field(name="서버 수", value=f"{len(bot.guilds)}", inline=False)
     embed.add_field(name="유저 수", value=f"{len(bot.users)}", inline=False)
     embed.add_field(name="파이썬 버전", value=f"{sys.version}", inline=False)
+    embed.add_field(name="띵이봇 버전", value=f"{v}", inline=False)
     await ctx.send(embed=embed)
 
 def insert_returns(body):
