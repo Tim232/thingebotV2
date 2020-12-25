@@ -32,7 +32,7 @@ bot = commands.Bot(command_prefix=['?', '띵아 '], intents=INTENTS)
 Ping = PingPong(URL, Authorization)
 KBot = koreanbots.Client(bot, (os.environ['kbtoken']))
 
-v = "TEB 2.35"
+v = "TEB 2.36"
 
 @bot.event
 async def on_ready():
