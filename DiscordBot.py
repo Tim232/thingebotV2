@@ -583,13 +583,5 @@ async def timer(ctx, mors, num, *, desc="없음"):
         await ctx.send(f"{ctx.author.mention}님! {num}초의 타이머가 끝났어요!\n내용: {desc}")
     else:
         await ctx.send(f"{ctx.author.mention}, 으에? 그런 단위는 없는것같은데...\n사용 가능한 시간의 단위는 분(m) 그리고 초(s)에요!")
-                        
-@bot.command(name="봇서버", help="봇이 들어가있는 서버들!", usage="", aliases=['botserverlist'])
-async def botserverlist(ctx):
-    if ctx.author.id in [724862211251765250, 694017913723682946]:
-        await ctx.author.send(bot.guilds)
-        await ctx.send(f"{ctx.author.mention}님께 DM으로 보내드렸어요!")
-    else:
-        await ctx.send(f"{ctx.author.mention}저기요...? 이거 하면 Tos 위반이에요...\n이 명령어는 '여무니', '애브리띵'만 이용 가능하니 수고하세요 :(")
-                        
+                       
 bot.run(os.environ['token'])
