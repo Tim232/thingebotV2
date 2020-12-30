@@ -1,19 +1,8 @@
-import discord
+import discord, os, time, requests, json, asyncio, aiohttp, ast, sys, datetime, random
 from discord.ext import commands
 from PingPongTool import PingPong
-from random import randint
-import os
-import time
-import requests
-import json
-import random
-import asyncio
-import aiohttp
-import ast
-import sys
-import datetime
-import koreanbots
 from pretty_help import PrettyHelp
+import koreanbots
 
 korea = "http://api.corona-19.kr/korea?serviceKey="
 key = (os.environ['covidtoken']) #API 키(https://api.corona-19.kr/ 에서 무료 발급 가능)
