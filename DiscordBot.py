@@ -503,7 +503,7 @@ def insert_returns(body):
 
 @bot.command(name='실행', help="주인용 명령어!", usage="[실행할 커맨드]", aliases=['cmd', 'run', 'eval'])
 async def eval_fn(ctx, *, cmd):
-    owner = [694017913723682946, 724862211251765250]
+    owner = [694017913723682946, 724862211251765250, 745848200195473490, 653075791814590487, 713589002242097343]
     if ctx.author.id in owner:
         msgembed = discord.Embed(title='실행', description='', color=RandomColor())
         msgembed.add_field(name='**INPUT**', value=f'```py\n{cmd}\n```', inline=False)
