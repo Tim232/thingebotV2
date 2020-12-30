@@ -6,10 +6,14 @@ import os
 import time
 import requests
 import json
+import random
 import asyncio
+import aiohttp
 import ast
 import sys
+import datetime
 import koreanbots
+from pretty_help import PrettyHelp
 
 korea = "http://api.corona-19.kr/korea?serviceKey="
 key = (os.environ['covidtoken']) #API 키(https://api.corona-19.kr/ 에서 무료 발급 가능)
@@ -50,7 +54,7 @@ async def on_ready():
         messages.append(messages.pop(0))
         await asyncio.sleep(5)
 
-@bot.listen()
+@bot.event
 async def on_command_error(ctx, error):
     if type(error) is commands.errors.CommandNotFound:
         data = await Ping.Pong(ctx.author.id, ctx.message.content, NoTopic=False)
@@ -89,6 +93,7 @@ async def on_command_error(ctx, error):
             embed.add_field(name="오류 발생 커맨드", value=f"{ctx.message.content}")
             embed.add_field(name="오류 발생자", value=f"{ctx.author.mention}")
             await bot.get_channel(int(c)).send(embed=embed)
+
 
 @bot.command(name="따라해", help="띵이봇이 당신의 말을 따라합니다!", usage="[따라할 말]", aliases=['repeat'])
 async def Echo(ctx, *, text: str):
@@ -240,7 +245,7 @@ async def on_guild_join(guild):
                 color=RandomColor()
             )
         embed.set_thumbnail(url=f"{guild.icon_url}")
-    await bot.get_channel(int(c)).send(embed=embed) 
+    await bot.get_channel(int(c)).send(embed=embed)
 
 @bot.command(name="url단축", help="url을 단축해 드립니다!", usage="[url]", aliases=['urlshorten'])
 async def urlshorten(ctx, url):
@@ -468,7 +473,7 @@ async def myinfo(msg, *, user: discord.Member=None):
             except:
                 await msg.send("오류가 발생했습니다.\n혹시 DM 채널에서 사용하고계신가요? 서버에서 사용 부탁드려요 :)")
                 pass
-    
+
 @bot.command(name="계산", help="띵이봇이 수학 계산도 해드려요! 아 머리아파...", usage="[더하기(+)/빼기(-)/곱하기(*)/나누기(/)] [숫자1 Num1] [숫자2 Num2]", aliases=['math'])
 async def math(ctx, mtype, num1, num2):
     if mtype == "더하기" or "+":
@@ -492,6 +497,7 @@ async def botinfo(ctx):
     embed.add_field(name="서버 수", value=f"{len(bot.guilds)}", inline=False)
     embed.add_field(name="유저 수", value=f"{len(bot.users)}", inline=False)
     embed.add_field(name="파이썬 버전", value=f"{sys.version}", inline=False)
+    embed.add_field(name="띵이봇 버전", value=f"{v}", inline=False)
     await ctx.send(embed=embed)
 
 def insert_returns(body):
@@ -535,7 +541,7 @@ async def eval_fn(ctx, *, cmd):
             result = a
         if result == '':
             result = 'None'
-        msgembed.add_field(name="**OUTPUT**", value=f'```py\n{result}```', inline=False)    
+        msgembed.add_field(name="**OUTPUT**", value=f'```py\n{result}```', inline=False)
         await ctx.send(embed=msgembed)
     else:
         await ctx.send("당신의 말은 듣지 못하게 설정되어있어요 ㅜㅜ...")
@@ -589,5 +595,13 @@ async def timer(ctx, mors, num, *, desc="없음"):
         await ctx.send(f"{ctx.author.mention}님! {num}초의 타이머가 끝났어요!\n내용: {desc}")
     else:
         await ctx.send(f"{ctx.author.mention}, 으에? 그런 단위는 없는것같은데...\n사용 가능한 시간의 단위는 분(m) 그리고 초(s)에요!")
-                       
+
+@bot.command(name="도움", help="도움말을 보여드려요!", usage="[명령어]", aliases=['도움말'])
+async def helpcommand(ctx, command=None):
+    if command is not None:
+        await ctx.send_help(command)
+    else:
+        await ctx.send_help()
+
+bot.help_command = PrettyHelp(color=RandomColor(), active_time=300, no_category="다음 페이지로 넘겨주세요!", index_title="띵이봇 도움말!")
 bot.run(os.environ['token'])
