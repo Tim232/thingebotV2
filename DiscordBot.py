@@ -542,14 +542,17 @@ async def eval_fn(ctx, *, cmd):
 
 @bot.event
 async def on_member_join(member):
-    embed = discord.Embed(
-        title=f"👋안녕하세요!",
-        description=f"안녕하세요! {member.mention}님! {member.guild.name} 서버에 오신것을 환영해요!",
-        color=RandomColor()
-    )
-    embed.set_thumbnail(url=member.avatar_url)
-    embed.set_footer(text=member.joined_at.strftime("%Y-%m-%d %H:%M:%S"))
-    await member.guild.system_channel.send(f"{member.mention}", embed=embed)
+    if member.guild.id in [645137556777992203]:
+        pass
+    else:
+        embed = discord.Embed(
+            title=f"👋안녕하세요!",
+            description=f"안녕하세요! {member.mention}님! {member.guild.name} 서버에 오신것을 환영해요!",
+            color=RandomColor()
+        )
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.set_footer(text=member.joined_at.strftime("%Y-%m-%d %H:%M:%S"))
+        await member.guild.system_channel.send(f"{member.mention}", embed=embed)
     
 @bot.event
 async def on_member_remove(member):
