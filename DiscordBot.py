@@ -2,6 +2,7 @@ import discord, os, time, requests, json, asyncio, aiohttp, ast, sys, datetime, 
 from discord.ext import commands
 from PingPongTool import PingPong
 from pretty_help import PrettyHelp
+from random import randint
 import koreanbots
 
 korea = "http://api.corona-19.kr/korea?serviceKey="
