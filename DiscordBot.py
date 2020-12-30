@@ -556,13 +556,16 @@ async def on_member_join(member):
     
 @bot.event
 async def on_member_remove(member):
-    embed = discord.Embed(
-        title=f"🖐안녕히가세요...",
-        description=f"안녕히가세요... {member.mention}님. {member.guild.name} 서버에 꼭 다시 오셔야해요...!",
-        color=RandomColor()
-    )
-    embed.set_thumbnail(url=member.avatar_url)
-    await member.guild.system_channel.send(embed=embed)
+    if member.guild.id in [645137556777992203]:
+        pass
+    else:
+        embed = discord.Embed(
+            title=f"🖐안녕히가세요...",
+            description=f"안녕히가세요... {member.mention}님. {member.guild.name} 서버에 꼭 다시 오셔야해요...!",
+            color=RandomColor()
+        )
+        embed.set_thumbnail(url=member.avatar_url)
+        await member.guild.system_channel.send(embed=embed)
 
 @bot.command(name="타이머", help="타이머를 맟춰줘요!", usage="[m/s] [숫자 Number] [내용 Content]", aliases=['timer'])
 async def timer(ctx, mors, num, *, desc="없음"):
