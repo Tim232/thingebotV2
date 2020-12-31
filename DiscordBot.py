@@ -1,8 +1,10 @@
 import discord, os, time, requests, json, asyncio, aiohttp, ast, sys, datetime, random
 from discord.ext import commands
 from PingPongTool import PingPong
-from pretty_help import PrettyHelp
 from random import randint
+from discord_slash import SlashCommand
+from discord_slash.utils import manage_commands
+from pretty_help import PrettyHelp
 import koreanbots
 
 korea = "http://api.corona-19.kr/korea?serviceKey="
@@ -25,6 +27,7 @@ INTENTS = discord.Intents.all()
 bot = commands.Bot(command_prefix=['?', '띵아 '], intents=INTENTS)
 Ping = PingPong(URL, Authorization)
 KBot = koreanbots.Client(bot, (os.environ['kbtoken']))
+slash = SlashCommand(bot)
 
 @bot.event
 async def on_ready():
@@ -595,6 +598,72 @@ async def helpcommand(ctx, command=None):
         await ctx.send_help(command)
     else:
         await ctx.send_help()
+                        
+@bot.command(name="슬커설정")
+async def slashcommandnew(ctx):
+    await slash.register_all_commands()
+    await ctx.send("완료되었습니다! 슬래시 커맨드를 즐기세요!\n잠깐?! 슬래시 커맨드가 나타나지 않나요??\n봇을 초대할때 슬래시커맨드 권한을 주었는지 확인하세요!")
+
+@slash.slash(name="ping")
+async def scping(ctx):
+    await ctx.send(content=f"🏓Pong! ({round(bot.latency*1000)}ms)")
+
+@slash.slash(name="따라해", options=[manage_commands.create_option("string", "봇이 따라할 말을 입력해주세요!", 3, True)])
+async def scecho(ctx, string):
+    await ctx.send(content=string)
+
+@slash.slash(name="프로필", options=[manage_commands.create_option("user", "봇이 볼 유저의 이름을 입력해주세요!", 6, False)])
+async def scprofile(msg, user=None):
+    status_dict: statusd = {discord.Status.online: '<a:online:787316219694546955>온라인',
+        discord.Status.offline: '<a:offline:787574825496608808>오프라인',
+        discord.Status.idle: '<a:idle:787573715298418739>자리비움',
+        discord.Status.do_not_disturb: '<a:dnd:787577042425479189>방해금지',
+    }
+    if msg.channel is not discord.DMChannel:
+        if user is not None:
+            try:
+                user_status = status_dict[user.status]
+                embed = discord.Embed(
+                        title=f"{user.name}#{user.discriminator}의 정보",
+                        description=f"{user.mention}의 정보를 보여드립니다...",
+                        color=RandomColor()
+                    )
+                embed.set_thumbnail(url=f"{user.avatar_url}")
+                embed.add_field(name="ID", value=f"{user.id}", inline=False)
+                embed.add_field(name="계정 생성일", value=user.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+                embed.add_field(name="서버에 들어온 날!", value=f"{user.joined_at.year}년 {user.joined_at.month}월 {user.joined_at.day}일", inline=False)
+                embed.add_field(name="서버 닉네임", value=f"{user.display_name}", inline=False)
+                embed.add_field(name="현재 상태", value=f"{user_status}({user.status})", inline=False)
+                embed.add_field(name="봇 여부", value=f"{user.bot}", inline=False)
+                embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{user.system}", inline=False)
+                embed.add_field(name="역할들", value="".join([role.mention for role in user.roles]), inline=False)
+                embed.add_field(name="하는중...", value=f"{user.activity}", inline=False)
+                await msg.send(embeds=[embed])
+            except:
+                await msg.send(content="오류가 발생했습니다.\n혹시 DM 채널에서 사용하고계신가요? 서버에서 사용 부탁드려요 :)")
+                pass
+        else:
+            try:
+                user_status = status_dict[msg.author.status]
+                embed2 = discord.Embed(
+                        title=f"{msg.author.name}#{msg.author.discriminator}의 정보",
+                        description=f"{msg.author.mention}의 정보에요!",
+                        color=RandomColor()
+                    )
+                embed2.set_thumbnail(url=f"{msg.author.avatar_url}")
+                embed2.add_field(name="ID", value=f"{msg.author.id}", inline=False)
+                embed2.add_field(name="계정 생성일", value=msg.author.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+                embed2.add_field(name="서버에 들어온 날!", value=f"{msg.author.joined_at.year}년 {msg.author.joined_at.month}월 {msg.author.joined_at.day}일", inline=False)
+                embed2.add_field(name="서버 닉네임", value=f"{msg.author.display_name}", inline=False)
+                embed2.add_field(name="현재 상태", value=f"{user_status}({msg.author.status})", inline=False)
+                embed2.add_field(name="봇 여부", value=f"{msg.author.bot}", inline=False)
+                embed2.add_field(name="디스코드 시스템 메시지 여부", value=f"{msg.author.system}", inline=False)
+                embed2.add_field(name="역할들", value="".join([role.mention for role in msg.author.roles]), inline=False)
+                embed2.add_field(name="하는중...", value=f"{msg.author.activity}", inline=False)
+                await msg.send(embeds=[embed2])
+            except:
+                await msg.send(content="오류가 발생했습니다.\n혹시 DM 채널에서 사용하고계신가요? 서버에서 사용 부탁드려요 :)")
+                pass
 
 bot.help_command = PrettyHelp(color=RandomColor(), active_time=300, no_category="다음 페이지로 넘겨주세요!", index_title="띵이봇 도움말!")
 bot.run(os.environ['token'])
