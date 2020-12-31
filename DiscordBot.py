@@ -22,7 +22,7 @@ Authorization = (os.environ['pingpongtoken'])
 URL = "https://builder.pingpong.us/api/builder/5f8bdb67e4b07b8420a30e71/integration/v0.2/custom/{sessionId}"
 
 INTENTS = discord.Intents.all()
-bot = commands.Bot(command_prefix=[';', '띵아 '], intents=INTENTS)
+bot = commands.Bot(command_prefix=['?', '띵아 '], intents=INTENTS)
 Ping = PingPong(URL, Authorization)
 KBot = koreanbots.Client(bot, (os.environ['kbtoken']))
 
@@ -46,17 +46,8 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-    if type(error) is commands.errors.CommandNotFound:
-        data = await Ping.Pong(ctx.author.id, ctx.message.content, NoTopic=False)
-        embed = discord.Embed(
-            title="띵이봇과 대화하기!",
-            description=data['text'],
-            color=RandomColor()
-        )
-        embed.set_footer(text="띵이봇 인공지능")
-        if data['image'] is not None:
-            embed.set_image(url=data['image'])
-        await ctx.send(embed=embed)
+    if isinstance(error, commands.CommandNotFound):
+        pass
     else:
         embed = discord.Embed(title="오류!!!", description="오류가 발생했어요...\n[오류 해결하러 ㄱㄱ!](https://error.teb.kro.kr/)", color=0xFF0000)
         embed.add_field(name="오류 내용", value=f"```{error}```")
@@ -83,6 +74,19 @@ async def on_command_error(ctx, error):
             embed.add_field(name="오류 발생 커맨드", value=f"{ctx.message.content}")
             embed.add_field(name="오류 발생자", value=f"{ctx.author.mention}")
             await bot.get_channel(int(c)).send(embed=embed)
+
+@bot.command(name="대화", help="띵이봇과 대화하세요!", usage="[할말]", aliases=["chat"])
+async def chat(message, *, ctx):
+    data = await Ping.Pong(message.author.id, ctx, NoTopic=False)
+    embed = discord.Embed(
+        title="띵이봇과 대화하기!",
+        description=data['text'],
+        color=RandomColor()
+    )
+    embed.set_footer(text="띵이봇 인공지능")
+    if data['image'] is not None:
+        embed.set_image(url=data['image'])
+    await message.send(embed=embed)
 
 
 @bot.command(name="따라해", help="띵이봇이 당신의 말을 따라합니다!", usage="[따라할 말]", aliases=['repeat'])
