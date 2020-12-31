@@ -4,3 +4,4 @@ discord.py
 requests
 koreanbots
 discord-pretty-help
+discord-py-slash-command
