@@ -38,7 +38,7 @@ async def on_ready():
             color=RandomColor()
         )
     await bot.get_channel(int(c)).send(embed=embed)
-    messages = ["';help'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.38.3",f"유저 {len(bot.users)}명, 길드 {len(bot.guilds)}개에서 함께하는 중!"]
+    messages = ["'?help'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.39.1",f"유저 {len(bot.users)}명, 길드 {len(bot.guilds)}개에서 함께하는 중!"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
