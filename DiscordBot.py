@@ -133,21 +133,21 @@ async def pingandpong(ctx):
     await ctx.send("\U0001F4E2"f' Pong! {round(latancy * 1000)}ms')
 
 @commands.has_permissions(kick_members=True)
-@bot.command(name="kick", pass_context=True, help="유저를 서버에서 킥해줍니다!", usage="[멘션 Mention] [사유 Reason]", aliases=['킥', '추방'])
+@bot.command(name="kick", help="유저를 서버에서 킥해줍니다!", usage="[멘션 Mention] (사유 Reason)", aliases=['킥', '추방'])
 async def _kick(ctx, user_name: discord.Member, *, reason=None):
     await user_name.kick(reason=reason)
     await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 추방하였습니다!")
     await user_name.send(f"{user_name.mention}님! 당신은 {ctx.channel.guild.name} 서버에서 아래의 사유로 추방되었습니다...\n추방 사유 : {reason}")
 
 @commands.has_permissions(ban_members=True)
-@bot.command(name="ban", pass_context=True, help="유저를 서버에서 밴해버립니다!", usage="[멘션 Mention] [사유 Reason]", aliases=['밴', '차단'])
+@bot.command(name="ban"=True, help="유저를 서버에서 밴해버립니다!", usage="[멘션 Mention] (사유 Reason)", aliases=['밴', '차단'])
 async def _ban(ctx, user_name: discord.Member, *, reason=None):
     await user_name.ban(reason=reason)
     await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 이 서버에서 밴해버렸습니다!")
     await user_name.send(f"{user_name.mention}님! 당신은 {ctx.channel.guild.name} 서버에서 아래의 사유로 차단되었습니다...\n차단 사유 : {reason}")
 
 @commands.has_permissions(ban_members=True)
-@bot.command(name="unban", pass_context=True, help="유저를 밴 해제합니다!", usage="[닉네임#태그 Username#Tag]", aliases=['언밴', '차단해제'])
+@bot.command(name="unban", help="유저를 밴 해제합니다!", usage="[닉네임#태그 Username#Tag]", aliases=['언밴', '차단해제'])
 async def _unban(ctx, *, user_name):
     banned_users = await ctx.guild.bans()
     member_name, member_discriminator = user_name.split('#')
@@ -159,7 +159,7 @@ async def _unban(ctx, *, user_name):
             return
 
 @commands.has_permissions(manage_messages=True)
-@bot.command(name="지워", pass_context=True, help="띵이봇이 개수만큼 메시지를 지워줘요!", usage="[개수(기본값 5) Amount(default 5)]", aliases=['delete', 'purge'])
+@bot.command(name="지워", help="띵이봇이 개수만큼 메시지를 지워줘요!", usage="(개수(기본값 5) Amount(default 5))", aliases=['delete', 'purge'])
 async def _clear(ctx, *, amount=5):
     await ctx.channel.purge(limit=amount + 1)
     await ctx.send(f"{ctx.author.name}에 의해 메시지 {amount}개가 지워졌어요!", delete_after=3)
@@ -418,7 +418,7 @@ async def id_(ctx, user: discord.Member, *, newname=None):
         await user.edit(nick=user.name)
         await ctx.send(f"{user.mention}님의 닉네임을 초기화했어요!")
 
-@bot.command(name="프로필", help="띵이봇이 당신의 디스코드 프로필을 보여드려요!", usage="[멘션(안할시 자신) Mention(If not, you)]", aliases=['profile'])
+@bot.command(name="프로필", help="띵이봇이 당신의 디스코드 프로필을 보여드려요!", usage="(멘션(없을시 자신) Mention(If not, you))", aliases=['profile'])
 async def myinfo(msg, *, user: discord.Member=None):
     status_dict: statusd = {discord.Status.online: '<a:online:787316219694546955>온라인',
         discord.Status.offline: '<a:offline:787574825496608808>오프라인',
@@ -555,7 +555,7 @@ async def on_member_join(member):
         embed.set_thumbnail(url=member.avatar_url)
         embed.set_footer(text=member.joined_at.strftime("%Y-%m-%d %H:%M:%S"))
         await member.guild.system_channel.send(f"{member.mention}", embed=embed)
-    
+
 @bot.event
 async def on_member_remove(member):
     if member.guild.id in [645137556777992203]:
@@ -569,7 +569,7 @@ async def on_member_remove(member):
         embed.set_thumbnail(url=member.avatar_url)
         await member.guild.system_channel.send(embed=embed)
 
-@bot.command(name="타이머", help="타이머를 맟춰줘요!", usage="[m/s] [숫자 Number] [내용 Content]", aliases=['timer'])
+@bot.command(name="타이머", help="타이머를 맟춰줘요!", usage="[m/s] [숫자 Number] (내용 Content)", aliases=['timer'])
 async def timer(ctx, mors, num, *, desc="없음"):
     if mors == "m":
         embed = discord.Embed(
@@ -598,7 +598,7 @@ async def helpcommand(ctx, command=None):
         await ctx.send_help(command)
     else:
         await ctx.send_help()
-                        
+
 @bot.command(name="슬커설정")
 async def slashcommandnew(ctx):
     await slash.register_all_commands()
