@@ -41,7 +41,7 @@ async def on_ready():
             color=RandomColor()
         )
     await bot.get_channel(int(c)).send(embed=embed)
-    messages = ["'?help'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.41.2",f"유저 {len(bot.users)}명, 길드 {len(bot.guilds)}개에서 함께하는 중!"]
+    messages = ["'?help'을 입력해 띵이봇과 노는법을 알아보세요!","애브리띵#2227","이 메시지는 5초마다 변경됩니다!","https://thinge.teb.kro.kr","TEB 2.41.3",f"유저 {len(bot.users)}명, 길드 {len(bot.guilds)}개에서 함께하는 중!"]
     while True:
         await bot.change_presence(status=discord.Status.online, activity=discord.Game(name=messages[0]))
         messages.append(messages.pop(0))
@@ -140,7 +140,7 @@ async def _kick(ctx, user_name: discord.Member, *, reason=None):
     await user_name.send(f"{user_name.mention}님! 당신은 {ctx.channel.guild.name} 서버에서 아래의 사유로 추방되었습니다...\n추방 사유 : {reason}")
 
 @commands.has_permissions(ban_members=True)
-@bot.command(name="ban"=True, help="유저를 서버에서 밴해버립니다!", usage="[멘션 Mention] (사유 Reason)", aliases=['밴', '차단'])
+@bot.command(name="ban", help="유저를 서버에서 밴해버립니다!", usage="[멘션 Mention] (사유 Reason)", aliases=['밴', '차단'])
 async def _ban(ctx, user_name: discord.Member, *, reason=None):
     await user_name.ban(reason=reason)
     await ctx.send("<a:mangchi:786785085659021364>" + str(user_name)+"을(를) 이 서버에서 밴해버렸습니다!")
