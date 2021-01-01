@@ -664,6 +664,23 @@ async def scprofile(msg, user=None):
             except:
                 await msg.send(content="오류가 발생했습니다.\n혹시 DM 채널에서 사용하고계신가요? 서버에서 사용 부탁드려요 :)")
                 pass
+                        
+@slash.slash(name="봇정보")
+async def scbotinfo(ctx):
+    await ctx.send(content=f"서버 수: {len(bot.guilds)}\n유저 수: {len(bot.users)}\n파이썬 버전: {sys.version}", complete_hidden=True)
+
+@slash.slash(name="인공지능대화", options=[manage_commands.create_option("string", "띵이봇에게 할말!", 3, True)])
+async def scchat(ctx, string):
+    data = await Ping.Pong(ctx.author.id, string, NoTopic=False)
+    embed = discord.Embed(
+        title="띵이봇과 대화하기!",
+        description=data['text'],
+        color=RandomColor()
+    )
+    embed.set_footer(text="띵이봇 인공지능")
+    if data['image'] is not None:
+        embed.set_image(url=data['image'])
+    await ctx.send(embeds=[embed])
 
 bot.help_command = PrettyHelp(color=RandomColor(), active_time=300, no_category="다음 페이지로 넘겨주세요!", index_title="띵이봇 도움말!")
 bot.run(os.environ['token'])
