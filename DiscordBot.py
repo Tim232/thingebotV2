@@ -93,8 +93,9 @@ async def chat(message, *, ctx):
 
 
 @bot.command(name="따라해", help="띵이봇이 당신의 말을 따라합니다!", usage="[따라할 말]", aliases=['repeat'])
-async def Echo(ctx, *, text: str):
-    await ctx.send(text)
+async def Echo(ctx, *, text=None: str):
+    if not text is None:
+        await ctx.send(text)
 
 @bot.command(name="hellothisisverification", help="띵이봇의 개발자를 확인하세요!", usage="")
 async def ping(ctx):
@@ -426,50 +427,29 @@ async def myinfo(msg, *, user: discord.Member=None):
         discord.Status.do_not_disturb: '<a:dnd:787577042425479189>방해금지',
     }
     if msg.channel is not discord.DMChannel:
-        if user is not None:
-            try:
-                user_status = status_dict[user.status]
-                embed = discord.Embed(
-                        title=f"{user.name}#{user.discriminator}의 정보",
-                        description=f"{user.mention}의 정보를 보여드립니다...",
-                        color=RandomColor()
-                    )
-                embed.set_thumbnail(url=f"{user.avatar_url}")
-                embed.add_field(name="ID", value=f"{user.id}", inline=False)
-                embed.add_field(name="계정 생성일", value=user.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-                embed.add_field(name="서버에 들어온 날!", value=f"{user.joined_at.year}년 {user.joined_at.month}월 {user.joined_at.day}일", inline=False)
-                embed.add_field(name="서버 닉네임", value=f"{user.display_name}", inline=False)
-                embed.add_field(name="현재 상태", value=f"{user_status}({user.status})", inline=False)
-                embed.add_field(name="봇 여부", value=f"{user.bot}", inline=False)
-                embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{user.system}", inline=False)
-                embed.add_field(name="역할들", value="".join([role.mention for role in user.roles]), inline=False)
-                embed.add_field(name="하는중...", value=f"{user.activity}", inline=False)
-                await msg.send(embed=embed)
-            except:
-                await msg.send("오류가 발생했습니다.\n혹시 DM 채널에서 사용하고계신가요? 서버에서 사용 부탁드려요 :)")
-                pass
-        else:
-            try:
-                user_status = status_dict[msg.author.status]
-                embed2 = discord.Embed(
-                        title=f"{msg.author.name}#{msg.author.discriminator}의 정보",
-                        description=f"{msg.author.mention}의 정보에요!",
-                        color=RandomColor()
-                    )
-                embed2.set_thumbnail(url=f"{msg.author.avatar_url}")
-                embed2.add_field(name="ID", value=f"{msg.author.id}", inline=False)
-                embed2.add_field(name="계정 생성일", value=msg.author.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
-                embed2.add_field(name="서버에 들어온 날!", value=f"{msg.author.joined_at.year}년 {msg.author.joined_at.month}월 {msg.author.joined_at.day}일", inline=False)
-                embed2.add_field(name="서버 닉네임", value=f"{msg.author.display_name}", inline=False)
-                embed2.add_field(name="현재 상태", value=f"{user_status}({msg.author.status})", inline=False)
-                embed2.add_field(name="봇 여부", value=f"{msg.author.bot}", inline=False)
-                embed2.add_field(name="디스코드 시스템 메시지 여부", value=f"{msg.author.system}", inline=False)
-                embed2.add_field(name="역할들", value="".join([role.mention for role in msg.author.roles]), inline=False)
-                embed2.add_field(name="하는중...", value=f"{msg.author.activity}", inline=False)
-                await msg.send(embed=embed2)
-            except:
-                await msg.send("오류가 발생했습니다.\n혹시 DM 채널에서 사용하고계신가요? 서버에서 사용 부탁드려요 :)")
-                pass
+        if user is None:
+            user=msg.author
+        try:
+            user_status = status_dict[user.status]
+            embed = discord.Embed(
+                    title=f"{user.name}#{user.discriminator}의 정보",
+                    description=f"{user.mention}의 정보를 보여드립니다...",
+                    color=RandomColor()
+                )
+            embed.set_thumbnail(url=f"{user.avatar_url}")
+            embed.add_field(name="ID", value=f"{user.id}", inline=False)
+            embed.add_field(name="계정 생성일", value=user.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
+            embed.add_field(name="서버에 들어온 날!", value=f"{user.joined_at.year}년 {user.joined_at.month}월 {user.joined_at.day}일", inline=False)
+            embed.add_field(name="서버 닉네임", value=f"{user.display_name}", inline=False)
+            embed.add_field(name="현재 상태", value=f"{user_status}({user.status})", inline=False)
+            embed.add_field(name="봇 여부", value=f"{user.bot}", inline=False)
+            embed.add_field(name="디스코드 시스템 메시지 여부", value=f"{user.system}", inline=False)
+            embed.add_field(name="역할들", value="".join([role.mention for role in user.roles]), inline=False)
+            embed.add_field(name="하는중...", value=f"{user.activity}", inline=False)
+            await msg.send(embed=embed)
+        except:
+            await msg.send("오류가 발생했습니다.\n혹시 DM 채널에서 사용하고계신가요? 서버에서 사용 부탁드려요 :)")
+            pass
 
 @bot.command(name="계산", help="띵이봇이 수학 계산도 해드려요! 아 머리아파...", usage="[더하기(+)/빼기(-)/곱하기(*)/나누기(/)] [숫자1 Num1] [숫자2 Num2]", aliases=['math'])
 async def math(ctx, mtype, num1, num2):
@@ -510,7 +490,7 @@ def insert_returns(body):
 
 @bot.command(name='실행', help="주인용 명령어!", usage="[실행할 커맨드]", aliases=['cmd', 'run', 'eval'])
 async def eval_fn(ctx, *, cmd):
-    owner = [694017913723682946, 724862211251765250, 745848200195473490, 653075791814590487, 713589002242097343]
+    owner = [694017913723682946, 724862211251765250, 745848200195473490, 653075 791814590487, 713589002242097343]
     if ctx.author.id in owner:
         msgembed = discord.Embed(title='실행', description='', color=RandomColor())
         msgembed.add_field(name='**INPUT**', value=f'```py\n{cmd}\n```', inline=False)
